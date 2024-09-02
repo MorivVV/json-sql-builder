@@ -1,7 +1,8 @@
-import { defaultSchema } from "@/config/globalSetting";
+import { IRestGet, ISQLParam } from "../types/restApi";
 import { allowOperators, postgresTypes } from "./queryConst";
-import { IRestGet, ISQLParam } from "@/types/restApi";
-import Query from "@/creators/classQuery";
+import { defaultSchema } from "../config/globalSetting";
+import Query from "../creators/classQuery";
+
 
 export class BasicQuery {
   values: Array<string | IRestGet | number | boolean | null | Array<string | number | boolean>> = [];

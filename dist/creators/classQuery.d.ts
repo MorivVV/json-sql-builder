@@ -1,4 +1,4 @@
-import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "@/types/restApi";
+import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
 declare class Query {
     private toTable;
     private fields;

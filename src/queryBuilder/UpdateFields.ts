@@ -1,5 +1,5 @@
-// import Query from "@/server/routes/controllers/api/creators/classQuery";
-import { IRestGet } from "@/types/restApi";
+// import Query from "../server/routes/controllers/api/creators/classQuery";
+import { IRestGet } from "../types/restApi";
 import { BasicQuery } from "./BasicQuery";
 
 export class UpdateFields extends BasicQuery {

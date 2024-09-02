@@ -1,4 +1,4 @@
-import { allowOperators } from "@/queryBuilder/queryConst";
+import { allowOperators } from "../queryBuilder/queryConst";
 
 const getOperator = (param: any, user_id: string): [string, string] => {
   if (!isNaN(param) && !Array.isArray(param)) {

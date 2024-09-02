@@ -1,5 +1,5 @@
+import { IRestGet } from "../types/restApi";
 import { BasicQuery } from "./BasicQuery";
-import { IRestGet } from "@/types/restApi";
 interface ITableList {
     table: string;
     alias: string;

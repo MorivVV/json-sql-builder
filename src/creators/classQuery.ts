@@ -1,11 +1,11 @@
-import { JoinTables } from "@/queryBuilder/JoinTables";
+import { JoinTables } from "../queryBuilder/JoinTables";
 import getField from "./getField";
 import getOperator from "./getOperator";
-import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "@/types/restApi";
-import { UpdateFields } from "@/queryBuilder/UpdateFields";
-import { SelectFields } from "@/queryBuilder/SelectFields";
-import { WhereFilter } from "@/queryBuilder/WhereFilter";
-import { defaultSchema } from "@/config/globalSetting";
+import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
+import { UpdateFields } from "../queryBuilder/UpdateFields";
+import { SelectFields } from "../queryBuilder/SelectFields";
+import { WhereFilter } from "../queryBuilder/WhereFilter";
+import { defaultSchema } from "../config/globalSetting";
 
 class Query {
   private toTable: string;

@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const JoinTables_1 = require("@/queryBuilder/JoinTables");
+const JoinTables_1 = require("../queryBuilder/JoinTables");
 const getField_1 = __importDefault(require("./getField"));
 const getOperator_1 = __importDefault(require("./getOperator"));
-const UpdateFields_1 = require("@/queryBuilder/UpdateFields");
-const SelectFields_1 = require("@/queryBuilder/SelectFields");
-const WhereFilter_1 = require("@/queryBuilder/WhereFilter");
-const globalSetting_1 = require("@/config/globalSetting");
+const UpdateFields_1 = require("../queryBuilder/UpdateFields");
+const SelectFields_1 = require("../queryBuilder/SelectFields");
+const WhereFilter_1 = require("../queryBuilder/WhereFilter");
+const globalSetting_1 = require("../config/globalSetting");
 class Query {
     constructor(sqlObj, valNum = 0, token, userId) {
         this.toTable = (0, getField_1.default)("to", sqlObj);

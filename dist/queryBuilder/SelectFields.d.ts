@@ -1,4 +1,4 @@
-import { IRestGet } from "@/types/restApi";
+import { IRestGet } from "../types/restApi";
 import { BasicQuery } from "./BasicQuery";
 export declare class SelectFields extends BasicQuery {
     private fields;

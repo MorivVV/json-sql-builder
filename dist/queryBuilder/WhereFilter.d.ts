@@ -1,4 +1,4 @@
-import { IRestGet, ISQLParam } from "@/types/restApi";
+import { IRestGet, ISQLParam } from "../types/restApi";
 import { BasicQuery } from "./BasicQuery";
 export declare class WhereFilter extends BasicQuery {
     constructor(wheres: {

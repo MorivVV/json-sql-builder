@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FromTables = void 0;
-const globalSetting_1 = require("@/config/globalSetting");
 const BasicQuery_1 = require("./BasicQuery");
+const globalSetting_1 = require("../config/globalSetting");
 class FromTables extends BasicQuery_1.BasicQuery {
     constructor(tables, valNum = 0, token, userId) {
         super(valNum, token, userId);

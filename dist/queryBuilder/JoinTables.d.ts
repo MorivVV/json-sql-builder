@@ -1,4 +1,4 @@
-import { IRestGet } from "@/types/restApi";
+import { IRestGet } from "../types/restApi";
 import { FromTables } from "./FromTables";
 export declare class JoinTables extends FromTables {
     private joinString;

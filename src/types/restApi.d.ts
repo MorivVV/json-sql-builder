@@ -1,5 +1,5 @@
-import { currentAuthUser, currentTimestamp } from "@/const/globalRestAPI";
-import { TBDMODTABLES, type TBDALLTABLES } from "@/const/schemaEnums";
+import { currentAuthUser, currentTimestamp } from "../const/globalRestAPI";
+import { TBDMODTABLES, type TBDALLTABLES } from "../const/schemaEnums";
 
 export interface ajaxData {
   sqlname: string;

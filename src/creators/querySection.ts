@@ -1,6 +1,6 @@
-import { comparator } from "@/functions/comparator";
+import { comparator } from "../functions/comparator";
 import getOperator from "./getOperator";
-import { defaultSchema } from "@/config/globalSetting";
+import { defaultSchema } from "../config/globalSetting";
 interface IJoinParams {
   firstTableAlias: string;
   firstField: string;

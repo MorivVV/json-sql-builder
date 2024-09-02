@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.set = exports.order = exports.where = exports.from = exports.select = void 0;
-const comparator_1 = require("@/functions/comparator");
+const comparator_1 = require("../functions/comparator");
 const getOperator_1 = __importDefault(require("./getOperator"));
-const globalSetting_1 = require("@/config/globalSetting");
+const globalSetting_1 = require("../config/globalSetting");
 const qFrom = (tables, join) => {
     let query = "";
     let tableList = [];

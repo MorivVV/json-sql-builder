@@ -1,4 +1,4 @@
-import { IRestGet, ISQLParam } from "@/types/restApi";
+import { IRestGet, ISQLParam } from "../types/restApi";
 export declare class BasicQuery {
     values: Array<string | IRestGet | number | boolean | null | Array<string | number | boolean>>;
     queryString: string;

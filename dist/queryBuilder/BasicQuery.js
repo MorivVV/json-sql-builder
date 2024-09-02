@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BasicQuery = void 0;
-const globalSetting_1 = require("@/config/globalSetting");
 const queryConst_1 = require("./queryConst");
-const classQuery_1 = __importDefault(require("@/creators/classQuery"));
+const globalSetting_1 = require("../config/globalSetting");
+const classQuery_1 = __importDefault(require("../creators/classQuery"));
 class BasicQuery {
     constructor(valNum = 0, token, user_id) {
         this.values = [];

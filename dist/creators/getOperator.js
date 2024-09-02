@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const queryConst_1 = require("@/queryBuilder/queryConst");
+const queryConst_1 = require("../queryBuilder/queryConst");
 const getOperator = (param, user_id) => {
     if (!isNaN(param) && !Array.isArray(param)) {
         param = "" + param;
