@@ -66,7 +66,8 @@ class WhereFilter extends BasicQuery_1.BasicQuery {
                     arrParam.push(this.intepretatedField(key));
                     arrParam.push(parseWhereValue.operator);
                     const currentParamNum = this.valNum + this.values.length + 1;
-                    arrParam.push((parseWhereValue.field || "$" + currentParamNum) + parseWhereValue.type);
+                    arrParam.push((parseWhereValue.field || "$" + currentParamNum) +
+                        parseWhereValue.type);
                     if (!parseWhereValue.field) {
                         this.values.push(parseWhereValue.value);
                     }

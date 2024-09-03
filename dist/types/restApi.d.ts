@@ -1,20 +1,5 @@
 import { currentAuthUser, currentTimestamp } from "../const/globalRestAPI";
-import { TBDMODTABLES, type TBDALLTABLES } from "../const/schemaEnums";
-export interface ajaxData {
-    sqlname: string;
-    [key: string]: string | number | null | boolean | Array<any> | undefined;
-}
-export interface fetchParam {
-    data: object;
-    stateName?: string;
-    url?: string;
-}
-export interface IServerLogsGet {
-    fileName?: string;
-    typeLog: string;
-    datebeg?: string;
-    dateend?: string;
-}
+import { TBDMODTABLES } from "../const/schemaEnums";
 type TqEXISTS = "EXISTS" | "NOT_EXISTS";
 type TOpBase = ">" | ">=" | "=" | "<>" | "<=" | "!=" | "<";
 type TOpStr = `${TBoolNegative}${TRegLike}${TCase}`;
@@ -36,7 +21,7 @@ type IRestJoinRight = `${string}=${string}(+)`;
 /**
  * Запрос
  */
-export interface IRestGet<Fields extends string = string> {
+export interface IRestGet<Fields extends string = string, _TBDALLTABLES extends string = string> {
     /**
      * Условие для фильтрации результатов запроса
      * где ключи = полям в запросе
@@ -54,7 +39,7 @@ export interface IRestGet<Fields extends string = string> {
      * все таблицы заносятся в enum константы E[SCHEMA], где имя схемы всегда в верхнем регистре
      * В качестве таблицы можно использовать подзапрос, тогда нужно будет использовать параметр alias: в котором пропишется псевдоним для таблицы
      */
-    from: TBDALLTABLES | Array<`${TBDALLTABLES}:${string}` | TBDALLTABLES | IRestGet<Fields>>;
+    from: _TBDALLTABLES | Array<`${_TBDALLTABLES}:${string}` | _TBDALLTABLES | IRestGet<Fields>>;
     /**
      * Перечисление полей, которые будут возвращены
      * синтаксис имя_поля:алиас

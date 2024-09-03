@@ -3,9 +3,18 @@ import { allowOperators, postgresTypes } from "./queryConst";
 import { defaultSchema } from "../config/globalSetting";
 import Query from "../creators/classQuery";
 
-
-export class BasicQuery {
-  values: Array<string | IRestGet | number | boolean | null | Array<string | number | boolean>> = [];
+export class BasicQuery<
+  Fields extends string = string,
+  _TBDALLTABLES extends string = string
+> {
+  values: Array<
+    | string
+    // | IRestGet<Fields, _TBDALLTABLES>
+    | number
+    | boolean
+    | null
+    | Array<string | number | boolean>
+  > = [];
   queryString = "";
   userId = "";
   valNum = 0;
@@ -43,11 +52,24 @@ export class BasicQuery {
     };
   }
 
-  parseParameter(parameterString: string | number | boolean | null | Array<string | number | boolean>): ISQLParam {
+  parseParameter(
+    parameterString:
+      | string
+      | number
+      | boolean
+      | null
+      | Array<string | number | boolean>
+  ): ISQLParam {
     let field: string | undefined;
     let operator = "=";
     let type = "";
-    let value: string | number | boolean | null | undefined | Array<string | number | boolean>;
+    let value:
+      | string
+      | number
+      | boolean
+      | null
+      | undefined
+      | Array<string | number | boolean>;
 
     if (typeof parameterString !== "string" || !parameterString.includes(":")) {
       value = parameterString;
@@ -115,8 +137,13 @@ export class BasicQuery {
     return { ...parameter };
   }
 
-  subQuery(restTable: IRestGet) {
-    const childSQL = new Query(restTable, this.valNum + this.values.length, this.token, this.userId);
+  subQuery(restTable: IRestGet<Fields, _TBDALLTABLES>) {
+    const childSQL = new Query(
+      restTable,
+      this.valNum + this.values.length,
+      this.token,
+      this.userId
+    );
     const cSelect = childSQL.getSelect();
     this.values = this.values.concat(childSQL.getValues());
     return cSelect;

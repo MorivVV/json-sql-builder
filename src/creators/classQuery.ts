@@ -1,19 +1,33 @@
 import { JoinTables } from "../queryBuilder/JoinTables";
 import getField from "./getField";
 import getOperator from "./getOperator";
-import type { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
+import type {
+  IrestDelete,
+  IRestGet,
+  IrestInsert,
+  IrestUpdate,
+} from "../types/restApi";
 import { UpdateFields } from "../queryBuilder/UpdateFields";
 import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";
 import { defaultSchema } from "../config/globalSetting";
 
-class Query {
+class Query<
+  Fields extends string = string,
+  _TBDALLTABLES extends string = string
+> {
   private toTable: string;
   private fields: string[];
   private table: string[];
   private toFields: string[];
   private setFields: {
-    [key: string]: string | number | boolean | Array<string | number | boolean> | IRestGet | null;
+    [key: string]:
+      | string
+      | number
+      | boolean
+      | Array<string | number | boolean>
+      | IRestGet<Fields, _TBDALLTABLES>
+      | null;
   };
   private join: string[];
   private where: string[];
@@ -22,12 +36,28 @@ class Query {
   private limit: number;
   private offset: number;
   private num: number;
-  private values: Array<string | IRestGet | number | boolean | null | Array<string | number | boolean>>;
+  private values: Array<
+    | string
+    // | IRestGet<Fields, _TBDALLTABLES>
+    | number
+    | boolean
+    | null
+    | Array<string | number | boolean>
+  >;
   private query: string;
   private token: string;
   private userId: string;
 
-  constructor(sqlObj: IRestGet | IrestUpdate | IrestDelete | IrestInsert, valNum = 0, token: string, userId: string) {
+  constructor(
+    sqlObj:
+      | IRestGet<Fields, _TBDALLTABLES>
+      | IrestUpdate
+      | IrestDelete
+      | IrestInsert,
+    valNum = 0,
+    token: string,
+    userId: string
+  ) {
     this.toTable = getField("to", sqlObj);
     this.fields = getField("fields", sqlObj) || [];
     this.table = getField("from", sqlObj) || [];
@@ -126,28 +156,60 @@ class Query {
     };
   }
 
-  qFrom(tables: string | (string | IRestGet)[], join: string[]) {
+  qFrom(
+    tables: string | (string | IRestGet<Fields, _TBDALLTABLES>)[],
+    join: string[]
+  ) {
     let tableArray: any[] = [];
     tableArray = tableArray.concat(tables);
-    const from = new JoinTables(tableArray, join, this.num + this.values.length, this.token, this.userId);
+    const from = new JoinTables(
+      tableArray,
+      join,
+      this.num + this.values.length,
+      this.token,
+      this.userId
+    );
     this.values = this.values.concat(from.getValues());
     return from.toString();
   }
 
-  qSet(fields: { [key: string]: string | number | boolean | Array<string | number | boolean> | IRestGet | null }) {
-    const set = new UpdateFields(fields, this.num + this.values.length, this.token, this.userId);
+  qSet(fields: {
+    [key: string]:
+      | string
+      | number
+      | boolean
+      | Array<string | number | boolean>
+      | IRestGet<Fields, _TBDALLTABLES>
+      | null;
+  }) {
+    const set = new UpdateFields(
+      fields,
+      this.num + this.values.length,
+      this.token,
+      this.userId
+    );
     this.values = this.values.concat(set.getValues());
     return set.toString();
   }
 
-  qSelect(fields: Array<string | IRestGet>) {
-    const select = new SelectFields(fields, this.num + this.values.length, this.token, this.userId);
+  qSelect(fields: Array<string | IRestGet<Fields, _TBDALLTABLES>>) {
+    const select = new SelectFields(
+      fields,
+      this.num + this.values.length,
+      this.token,
+      this.userId
+    );
     this.values = this.values.concat(select.getValues());
     return select.toString();
   }
 
   qWhere(wheres: { [x: string]: any }[] | { [x: string]: any }) {
-    const where = new WhereFilter(wheres, this.num + this.values.length, this.token, this.userId);
+    const where = new WhereFilter(
+      wheres,
+      this.num + this.values.length,
+      this.token,
+      this.userId
+    );
     this.values = this.values.concat(where.getValues());
     return where.toString();
   }
@@ -169,7 +231,10 @@ class Query {
     return "\nORDER BY " + query.join(", ");
   }
 
-  qGroup(group: string[], fields: Array<string | IRestGet>) {
+  qGroup(
+    group: string[],
+    fields: Array<string | IRestGet<Fields, _TBDALLTABLES>>
+  ) {
     const query: string[] = [];
     let checkSelectFielsd = true;
     group.forEach((e) => {

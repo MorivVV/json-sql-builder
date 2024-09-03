@@ -52,7 +52,13 @@ const qFrom = (tables: any, join: any[]) => {
       sp = element.replace("(+)", "").split(".");
       const secondTableAlias = sp[0];
       const secondField = sp[1];
-      joinList.push({ firstTableAlias, firstField, isJoin, secondTableAlias, secondField });
+      joinList.push({
+        firstTableAlias,
+        firstField,
+        isJoin,
+        secondTableAlias,
+        secondField,
+      });
     });
     joinList.sort(comparator({ firstTableAlias: 1, secondTableAlias: 1 }));
     joinList.forEach((e, i) => {
@@ -115,7 +121,7 @@ const qFrom = (tables: any, join: any[]) => {
 const qSet = (fields: { [x: string]: any }, start: any, user_id: string) => {
   let query = "";
   let num = start;
-  const values = [];
+  const values: string[] = [];
   for (const key in fields) {
     if (Object.hasOwnProperty.call(fields, key)) {
       num++;
@@ -135,10 +141,14 @@ const qSet = (fields: { [x: string]: any }, start: any, user_id: string) => {
   return { query, values };
 };
 
-const qWhere = (where: { [x: string]: any }, start: number, user_id: string) => {
+const qWhere = (
+  where: { [x: string]: any },
+  start: number,
+  user_id: string
+) => {
   let query = "";
   let num = start;
-  const values = [];
+  const values: string[] = [];
   for (const key in where) {
     if (Object.hasOwnProperty.call(where, key)) {
       num++;
