@@ -4,7 +4,14 @@ import { TBDMODTABLES, type TBDALLTABLES } from "../const/schemaEnums";
 type TqEXISTS = "EXISTS" | "NOT_EXISTS";
 type TOpBase = ">" | ">=" | "=" | "<>" | "<=" | "!=" | "<";
 type TOpStr = `${TBoolNegative}${TRegLike}${TCase}`;
-type restModValue = typeof currentAuthUser | typeof currentTimestamp | string | number | null | boolean | undefined;
+type restModValue =
+  | typeof currentAuthUser
+  | typeof currentTimestamp
+  | string
+  | number
+  | null
+  | boolean
+  | undefined;
 
 // type restValue<T> = T extends typeof currentAuthUser
 //   ? typeof currentAuthUser
@@ -40,7 +47,9 @@ type TBoolNegative = "" | "!";
 type TCase = "" | "*";
 
 type restGetType<Fields extends string = string> = {
-  [key in Fields as key extends Fields ? Fields | `${Fields}@${number}` | TqEXISTS | `${TqEXISTS}@${number}` : never]?:
+  [key in Fields as key extends Fields
+    ? Fields | `${Fields}@${number}` | TqEXISTS | `${TqEXISTS}@${number}`
+    : never]?:
     | restValue
     | `@@:${key}`
     | `@@${TOpBase}:${key}`
@@ -76,7 +85,10 @@ type IRestJoinRight = `${string}=${string}(+)`;
 /**
  * Запрос
  */
-export interface IRestGet<Fields extends string = string, _TBDALLTABLES extends string = string> {
+export interface IRestGet<
+  Fields extends string = string,
+  _TBDALLTABLES extends string = string
+> {
   /**
    * Условие для фильтрации результатов запроса
    * где ключи = полям в запросе
@@ -94,7 +106,9 @@ export interface IRestGet<Fields extends string = string, _TBDALLTABLES extends 
    * все таблицы заносятся в enum константы E[SCHEMA], где имя схемы всегда в верхнем регистре
    * В качестве таблицы можно использовать подзапрос, тогда нужно будет использовать параметр alias: в котором пропишется псевдоним для таблицы
    */
-  from: _TBDALLTABLES | Array<`${_TBDALLTABLES}:${string}` | _TBDALLTABLES | IRestGet<Fields>>;
+  from:
+    | _TBDALLTABLES
+    | Array<`${_TBDALLTABLES}:${string}` | _TBDALLTABLES | IRestGet<Fields>>;
   /**
    * Перечисление полей, которые будут возвращены
    * синтаксис имя_поля:алиас
@@ -190,3 +204,17 @@ export interface ISQLParam {
   value: string | number | boolean | null | Array<string | number | boolean>;
   type: string;
 }
+
+export type ICreateTableFields<
+  Field extends string = string,
+  TableAlias extends string = string
+> = `${TableAlias}.${Field}` | `${TableAlias}.*`;
+
+export type IAliasTableFields<
+  T extends Record<string, any>,
+  A extends string
+> = {
+  [K in keyof T as K extends string ? TaddFA<K, A> : never]: T[K];
+};
+
+type TaddFA<T extends string, A extends string> = `${A}.${T}`;

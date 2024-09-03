@@ -133,4 +133,9 @@ export interface ISQLParam {
     value: string | number | boolean | null | Array<string | number | boolean>;
     type: string;
 }
+export type ICreateTableFields<Field extends string = string, TableAlias extends string = string> = `${TableAlias}.${Field}` | `${TableAlias}.*`;
+export type IAliasTableFields<T extends Record<string, any>, A extends string> = {
+    [K in keyof T as K extends string ? TaddFA<K, A> : never]: T[K];
+};
+type TaddFA<T extends string, A extends string> = `${A}.${T}`;
 export {};

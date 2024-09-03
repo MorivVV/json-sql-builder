@@ -33,7 +33,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
         }
         const pTable = this.splitTable(table);
         pTable.table = pTable.scheme + "." + pTable.table;
-        if (pTable.scheme !== "pg_catalog" && pTable.scheme !== "information_schema" && pTable.scheme !== "seodo") {
+        if (!FromTables.accessTable.includes(pTable.scheme)) {
             pTable.table = this.addAccess(pTable.table);
         }
         return { pTable, alias };
@@ -83,3 +83,4 @@ class FromTables extends BasicQuery_1.BasicQuery {
     }
 }
 exports.FromTables = FromTables;
+FromTables.accessTable = [];

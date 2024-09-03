@@ -7,6 +7,7 @@ interface ITableList {
 }
 export declare class FromTables extends BasicQuery {
     tables: ITableList[];
+    static accessTable: string[];
     constructor(tables: Array<string | IRestGet>, valNum: number | undefined, token: string, userId: string);
     private stringTable;
     private _subQuery;

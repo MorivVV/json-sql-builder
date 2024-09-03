@@ -8,8 +8,13 @@ interface ITableList {
 }
 export class FromTables extends BasicQuery {
   tables: ITableList[] = [];
-
-  constructor(tables: Array<string | IRestGet>, valNum = 0, token: string, userId: string) {
+  static accessTable: string[] = [];
+  constructor(
+    tables: Array<string | IRestGet>,
+    valNum = 0,
+    token: string,
+    userId: string
+  ) {
     super(valNum, token, userId);
     for (let index = 0; index < tables.length; index++) {
       const table = tables[index];
@@ -36,7 +41,7 @@ export class FromTables extends BasicQuery {
     }
     const pTable = this.splitTable(table);
     pTable.table = pTable.scheme + "." + pTable.table;
-    if (pTable.scheme !== "pg_catalog" && pTable.scheme !== "information_schema" && pTable.scheme !== "seodo") {
+    if (!FromTables.accessTable.includes(pTable.scheme)) {
       pTable.table = this.addAccess(pTable.table);
     }
     return { pTable, alias };
