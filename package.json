@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/creators/classQuery.js",
   "scripts": {
-    "test": "tsc --p ."
+    "test": "tsc"
   },
   "keywords": [
     "sql",

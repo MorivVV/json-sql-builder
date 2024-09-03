@@ -1,7 +1,7 @@
 import { JoinTables } from "../queryBuilder/JoinTables";
 import getField from "./getField";
 import getOperator from "./getOperator";
-import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
+import type { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
 import { UpdateFields } from "../queryBuilder/UpdateFields";
 import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";

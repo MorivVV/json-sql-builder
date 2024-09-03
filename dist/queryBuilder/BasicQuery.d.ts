@@ -6,7 +6,7 @@ export declare class BasicQuery {
     valNum: number;
     token: string;
     constructor(valNum: number | undefined, token: string, user_id: string);
-    getValues(): (string | number | boolean | IRestGet<string> | (string | number | boolean)[] | null)[];
+    getValues(): (string | number | boolean | (string | number | boolean)[] | IRestGet<string> | null)[];
     prepareField(fieldValue: string): string;
     splitTable(table: string): {
         scheme: string;

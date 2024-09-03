@@ -1,4 +1,4 @@
-import { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
+import type { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
 declare class Query {
     private toTable;
     private fields;
@@ -17,7 +17,7 @@ declare class Query {
     private token;
     private userId;
     constructor(sqlObj: IRestGet | IrestUpdate | IrestDelete | IrestInsert, valNum: number | undefined, token: string, userId: string);
-    getValues(): (string | number | boolean | IRestGet<string> | (string | number | boolean)[] | null)[];
+    getValues(): (string | number | boolean | (string | number | boolean)[] | IRestGet<string> | null)[];
     getSelect(): string;
     getUpdate(): string;
     getInsert(): string;
