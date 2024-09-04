@@ -3,7 +3,7 @@ There is support for nested queries.
 By default, all queries are wrapped in a construct that imposes a check of access rights to table data
 To exclude schema names in which you do not need to do an access check, you can use a static variable in the FromTables class
 
-```
+```ts
 import { FromTables } from "@morivvv/json-sql-builder/dist/queryBuilder/FromTables";
 
 FromTables.accessTable = ["pg_catalog", "information_schema"];
@@ -11,7 +11,7 @@ FromTables.accessTable = ["pg_catalog", "information_schema"];
 
 Any query is built through the Query class. The class is automatically divided into sections. Depending on the JSON being passed, you can get the result for SELECT, INSERT, UPDATE, DELETE by calling different methods of the class
 
-```
+```ts
 import { IJiraIssues } from "./schemas/jira";
 import Query from "@morivvv/json-sql-builder";
 import { ICreateTableFields } from "@morivvv/json-sql-builder/dist/types/restApi";
@@ -53,12 +53,11 @@ const a = new Query<
   "id"
 );
 console.log(a.getSelect(), a.getValues());
-
 ```
 
 RESULT
 
-```
+```sql
 SELECT DISTINCT au.issuetype, au.comments, au.comments AS alias_comm, e.naimen FROM (SELECT *
     FROM billing.approvals AS t
     WHERE
