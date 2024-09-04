@@ -88,7 +88,7 @@ class Query<
     query.push(this.qGroup(this.group, this.fields));
     query.push(this.qOrder(this.order));
     query.push(this.qLimit(this.limit, this.offset));
-    return query.join(" ");
+    return query.join("\n ");
   }
 
   getUpdate() {
@@ -98,7 +98,7 @@ class Query<
     query.push(pTable.table);
     query.push(this.qSet(this.setFields));
     query.push(this.qWhere(this.where));
-    return query.join(" ");
+    return query.join("\n ");
   }
 
   getInsert() {

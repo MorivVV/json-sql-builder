@@ -108,6 +108,15 @@ export const enum EKNOWLEGEBASE {
   ws_room = "ws_room",
   ws_subscribes = "ws_subscribes",
 }
+export const enum EBILLING {
+  apartments = "billing.apartments",
+  billings = "billing.billings",
+  meters = "billing.meters",
+  obj_street = "billing.obj_street",
+  prices = "billing.prices",
+  resources = "billing.resources",
+  zdorovie = "billing.zdorovie",
+}
 export type TBDALLTABLES = `${
   | EPGCATALOG
   | EINFORMATIONSCHEMA
@@ -115,4 +124,5 @@ export type TBDALLTABLES = `${
   | ECONFA
   | ECONFIG
   | EKNOWLEGEBASE
+  | EBILLING
   | EJIRA}`;
