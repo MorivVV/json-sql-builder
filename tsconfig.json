@@ -103,7 +103,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "files": ["./src/creators/classQuery.ts"],
+  "files": ["./src/creators/classQuery.ts", "./src/const/schemaEnums.ts"],
   // "include": ["./src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
