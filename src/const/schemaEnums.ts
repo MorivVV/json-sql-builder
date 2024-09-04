@@ -20,27 +20,7 @@ export const enum EPGCATALOG {
 export const enum EINFORMATIONSCHEMA {
   columns = "information_schema.columns",
 }
-export const enum EAUDIT {
-  aud_groups = "audit.aud_groups",
-  audit_setting = "audit.audit_setting",
-  bd_users = "audit.bd_users",
-  defects = "audit.defects",
-  dev_team = "audit.dev_team",
-  doc_comment = "audit.doc_comment",
-  eks_audit = "audit.eks_audit",
-  eks_audit_archive = "audit.eks_audit_archive",
-  eks_login = "audit.eks_login",
-  eks_operation = "audit.eks_operation",
-  eks_users = "audit.eks_users",
-  operation_runs = "audit.operation_runs",
-  partition_access = "audit.partition_access",
-  permit_user_operation = "audit.permit_user_operation",
-  reason_period = "audit.reason_period",
-  reasons = "audit.reasons",
-  sys_sql_query = "audit.sys_sql_query",
-  user_access = "audit.user_access",
-  user_groups = "audit.user_groups",
-}
+
 export const enum ECONFIG {
   bd_driver = "config.bd_driver",
   data_bases = "config.data_bases",
@@ -53,13 +33,7 @@ export const enum ECONFA {
   content = "confa.content",
   pages = "confa.pages",
 }
-export const enum EMONITORING {
-  fp_other_status = "monitoring.fp_other_status",
-  fp_transfer_to_eks = "monitoring.fp_transfer_to_eks",
-  fp_zachislenie_servces = "monitoring.fp_zachislenie_servces",
-  fp_ispolnenie_servces = "monitoring.fp_ispolnenie_servces",
-  pgw_status = "monitoring.pgw_status",
-}
+
 export const enum ECHECKROOM {
   employees = "checkroom.employees",
   r_admins = "checkroom.r_admins",
@@ -69,25 +43,8 @@ export const enum ECHECKROOM {
   r_sessions = "checkroom.r_sessions",
   r_users = "checkroom.r_users",
 }
-export const enum EPULT {
-  actions = "pult.actions",
-  alert_rule_pool = "pult.alert_rule_pool",
-  alert_tables = "pult.alert_tables",
-  as_metrics = "pult.as_metrics",
-  asystems = "pult.asystems",
-  ds_tks_patterns_email = "pult.ds_tks_patterns_email",
-  ds_tks_patterns_mail_body = "pult.ds_tks_patterns_mail_body",
-  ds_tks_patterns_pattern = "pult.ds_tks_patterns_pattern",
-  ds_tks_patterns_pattern_priority = "pult.ds_tks_patterns_pattern_priority",
-  duty_schedule = "pult.duty_schedule",
-  incidents = "pult.incidents",
-  metrics = "pult.metrics",
-  monitors = "pult.monitors",
-  rule_actions = "pult.rule_actions",
-  rules = "pult.rules",
-}
+
 export const enum EKNOWLEGEBASE {
-  ab_emp_info = "ab_emp_info",
   browser_list = "browser_list",
   bz_audit = "bz_audit",
   bz_auto_systems = "bz_auto_systems",
@@ -151,88 +108,11 @@ export const enum EKNOWLEGEBASE {
   ws_room = "ws_room",
   ws_subscribes = "ws_subscribes",
 }
-export const enum ESEODO {
-  addressees = "seodo.addressees",
-  approvals = "seodo.approvals",
-  approvers = "seodo.approvers",
-  assistents = "seodo.assistents",
-  auto_executor_groups = "seodo.auto_executor_groups",
-  auto_logic = "seodo.auto_logic",
-  auto_logic_actions = "seodo.auto_logic_actions",
-  auto_logic_executors = "seodo.auto_logic_executors",
-  auto_logic_logs = "seodo.auto_logic_logs",
-  auto_logic_settings = "seodo.auto_logic_settings",
-  documents = "seodo.documents",
-  employees = "seodo.employees",
-  executors = "seodo.executors",
-  files = "seodo.files",
-  kind = "seodo.kind",
-  organization = "seodo.organization",
-  search = "seodo.search",
-  signature_type = "seodo.signature_type",
-  state = "seodo.state",
-  task = "seodo.task",
-  task_resolution = "seodo.task_resolution",
-  users_documents = "seodo.users_documents",
-}
-export const enum ESMPRIMARY {
-  as_cluster = "smprimary.as_cluster",
-  as_lider_ops = "smprimary.as_lider_ops",
-  assignmentm1 = "smprimary.assignmentm1",
-  assignmentb3 = "smprimary.assignmentb3",
-  ci_fullhierarchy = "smprimary.ci_fullhierarchy",
-  clusters = "smprimary.clusters",
-  cm3ra3 = "smprimary.cm3ra3",
-  cm3rm1 = "smprimary.cm3rm1",
-  cm3tm1 = "smprimary.cm3tm1",
-  contctsm1 = "smprimary.contctsm1",
-  deptm1 = "smprimary.deptm1",
-  device2a5 = "smprimary.device2a5",
-  device2m1 = "smprimary.device2m1",
-  devicea13 = "smprimary.devicea13",
-  devicea9 = "smprimary.devicea9",
-  hpcauditcm3rm1 = "smprimary.hpcauditcm3rm1",
-  hpcauditdevicem1 = "smprimary.hpcauditdevicem1",
-  hpcauditprobsummarym1 = "smprimary.hpcauditprobsummarym1",
-  hpcauditrootcausem1 = "smprimary.hpcauditrootcausem1",
-  incidentsm1 = "smprimary.incidentsm1",
-  probsummarym1 = "smprimary.probsummarym1",
-  rootcausem1 = "smprimary.rootcausem1",
-  rootcsetsksm1 = "smprimary.rootcsetsksm1",
-  sbapprovalm1 = "smprimary.sbapprovalm1",
-  sbimtaskm1 = "smprimary.sbimtaskm1",
-  sbjitservicem1 = "smprimary.sbjitservicem1",
-  sbprobsummarytsm1 = "smprimary.sbprobsummarytsm1",
-  sbrequestm1 = "smprimary.sbrequestm1",
-  sbrequesttaskm1 = "smprimary.sbrequesttaskm1",
-  sbriskm1 = "smprimary.sbriskm1",
-  hpcauditsbriskm1 = "smprimary.hpcauditsbriskm1",
-  sbrisktaskm1 = "smprimary.sbrisktaskm1",
-  sbroutinetaskm1 = "smprimary.sbroutinetaskm1",
-  sbroutineworksm1 = "smprimary.sbroutineworksm1",
-  sbservicewoa2 = "smprimary.sbservicewoa2",
-  sbsoftupdatetaskm1 = "smprimary.sbsoftupdatetaskm1",
-  screlationm1 = "smprimary.screlationm1",
-  sbimcausem1 = "smprimary.sbimcausem1",
-  sbjiraissuem1 = "smprimary.sbjiraissuem1",
-  cm3rm2 = "smprimary.cm3rm2",
-  sbreferencea7 = "smprimary.sbreferencea7",
-  sbjitservica3 = "smprimary.sbjitservica3",
-}
 export type TBDALLTABLES = `${
   | EPGCATALOG
   | EINFORMATIONSCHEMA
-  | EAUDIT
   | ECHECKROOM
   | ECONFA
   | ECONFIG
   | EKNOWLEGEBASE
-  | EPULT
-  | EMONITORING
-  | ESEODO
-  | ESMPRIMARY
   | EJIRA}`;
-
-export type TBDMODTABLES =
-  | `alert.${string}`
-  | `${EAUDIT | ECHECKROOM | ECONFA | ECONFIG | EKNOWLEGEBASE | EPULT | ESEODO | ESMPRIMARY | EJIRA}`;
