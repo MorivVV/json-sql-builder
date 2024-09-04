@@ -1,5 +1,4 @@
 import { currentAuthUser, currentTimestamp } from "../const/globalRestAPI";
-import { TBDMODTABLES, type TBDALLTABLES } from "../const/schemaEnums";
 
 type TqEXISTS = "EXISTS" | "NOT_EXISTS";
 type TOpBase = ">" | ">=" | "=" | "<>" | "<=" | "!=" | "<";
@@ -151,7 +150,10 @@ export interface IRestGet<
   tuz?: number;
 }
 
-export interface IrestUpdate<Fields extends string = string> {
+export interface IrestUpdate<
+  Fields extends string = string,
+  TBDMODTABLES extends string = string
+> {
   /**
    * Таблица для обновления
    */
@@ -160,7 +162,10 @@ export interface IrestUpdate<Fields extends string = string> {
   filter?: restGetType<Fields>;
 }
 
-export interface IrestInsert<Fields extends string = string> {
+export interface IrestInsert<
+  Fields extends string = string,
+  TBDMODTABLES extends string = string
+> {
   /**
    * Таблица для вставки
    */
@@ -168,7 +173,10 @@ export interface IrestInsert<Fields extends string = string> {
   fields: { [key in Fields]?: restModValue | Array<restModValue> };
 }
 
-export interface IrestDelete<Fields extends string = string> {
+export interface IrestDelete<
+  Fields extends string = string,
+  TBDMODTABLES extends string = string
+> {
   /**
    * Таблица из которой произойдет удаление
    */
