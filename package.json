@@ -1,14 +1,16 @@
 {
-  "name": "sql-builder",
+  "name": "@morivvv/json-sql-builder",
   "version": "1.0.0",
   "description": "",
+  "private": false,
   "main": "dist/creators/classQuery.js",
   "scripts": {
-    "test": "tsc"
+    "build": "tsc"
   },
   "keywords": [
     "sql",
     "json",
+    "builder",
     "api"
   ],
   "author": "Morivets Vladimir",
