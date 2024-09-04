@@ -14,7 +14,7 @@
     "api"
   ],
   "author": "Morivets Vladimir",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.5.2",
     "typescript": "^5.5.4"
