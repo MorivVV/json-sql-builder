@@ -134,7 +134,90 @@ export interface ISQLParam {
 }
 export type ICreateTableFields<Field extends string = string, TableAlias extends string = string> = `${TableAlias}.${Field}` | `${TableAlias}.*`;
 export type IAliasTableFields<T extends Record<string, any>, A extends string> = {
-    [K in keyof T as K extends string ? TaddFA<K, A> : never]: T[K];
+    [K in keyof T as K extends string ? K extends "table" ? K : TaddFA<K, A> : never]: K extends "table" ? `${T[K]}:${A}` : T[K];
 };
 type TaddFA<T extends string, A extends string> = `${A}.${T}`;
+export interface ITableName extends Record<string, any> {
+    table: string;
+}
+type TJoin<F extends Record<string, any>, K extends keyof F = keyof F> = `${K & string}=${K & string}`;
+export type TMergeTInterface<T1 extends ITableName, T2 extends ITableName = {
+    table: "";
+}, T3 extends ITableName = {
+    table: "";
+}, T4 extends ITableName = {
+    table: "";
+}, T5 extends ITableName = {
+    table: "";
+}> = Omit<T1, "table"> & Omit<T2, "table"> & Omit<T3, "table"> & Omit<T4, "table"> & Omit<T5, "table"> & {
+    table: Exclude<(T1 | T2 | T3 | T4 | T5)["table"], "">;
+};
+type TTableFields<F extends ITableName> = keyof Omit<F, "table">;
+type TFilterOperation<F extends ITableName> = {
+    [K in TTableFields<F>]?: `${TBoolNegative}null` | `${TOpBase}:${F[K]}` | `@@${TOpBase}:${TTableFields<F> & string}` | IJMQL<F>;
+};
+type TTableFilters<F extends ITableName> = TFilterOperation<F> | TFilterOperation<F>[];
+/**
+ * IJMQL<TMergeTInterface<IAliasTableFields<A2, "a2">, IAliasTableFields<A1, "a1">, IAliasTableFields<A3, "a3">>>
+ */
+export interface IJMQL<F extends ITableName> {
+    /**
+     * Секция from указывает на таблицы в БД, из который будет производится выбор данных
+     * Для одной таблицы можно передавать текстовую переменную, имя таблицы может не содержать псевдоним
+     * Если имена таблиц передаются в виде массива, то псевдоним для таблиц ОБЯЗАТЕЛЕН
+     * [`${EPULT.asystems}:s`, `${EPULT.alert_tables}:at`]
+     * все таблицы заносятся в enum константы E[SCHEMA], где имя схемы всегда в верхнем регистре
+     * В качестве таблицы можно использовать подзапрос, тогда нужно будет использовать параметр alias: в котором пропишется псевдоним для таблицы
+     */
+    from: readonly [...Array<`${F["table"]}` | IJMQL<F>>];
+    /**
+     * Перечисление полей, которые будут возвращены
+     * синтаксис имя_поля:алиас
+     * Можно использовать подзапрос в качестве поля
+     * Для вывода уникальных значений в качестве первого параметра передаем DISTINCT
+     */
+    fields?: Array<`${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}`>;
+    /**
+     * Условие для фильтрации результатов запроса
+     * где ключи = полям в запросе
+     * все секции объединяются условием AND
+     * для указания условия OR, нужно передать массив ключей со значениями
+     * в качестве значения может быть использован подзапрос,
+     * тогда для поля будет установлен оператор IN (результат запроса)
+     */
+    filter?: TTableFilters<F>;
+    /**
+     * Сортировка результата запроса, указвыется название нужного поля/списка полей,
+     *  либо порядковый номера полей в результате.
+     * знак минус - => устанавливает обратную сортировку
+     */
+    sort?: Array<`${restSortOrder}${TTableFields<F> & string}`>;
+    /**
+     * Группирует запрос по указанным полям
+     */
+    group?: Array<`${TTableFields<F> & string}`>;
+    /**
+     * Условия объединения таблиц где
+     * =(+)слева от поля => LEFT JOIN
+     * =справа(+) => RIGHT JOIN
+     * = без плюса => INNER JOIN
+     */
+    join?: Array<`${TJoin<Omit<F, "table">>}`>;
+    /**
+     * Лимит на количество выводимых строк
+     */
+    limit?: number;
+    /**
+     * Смещение запроса при лимите, если лимит = 10, то смещение =1 выведет с 11 по 20 записи
+     */
+    page?: number;
+    /**
+     * Псевдоним для подзапроса
+     */
+    alias?: string;
+    /**
+     * Код учетной записи для подключения к БД
+     */
+    tuz?: number;
+}
 export {};
