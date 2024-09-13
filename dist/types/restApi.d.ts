@@ -177,7 +177,9 @@ export interface IJMQL<F extends ITableName> {
      * Можно использовать подзапрос в качестве поля
      * Для вывода уникальных значений в качестве первого параметра передаем DISTINCT
      */
-    fields?: Array<"DISTINCT" | number | `${number}:${string}` | `${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | `count(${number}):${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | IJMQL<F>>;
+    fields?: readonly [
+        ...Array<"DISTINCT" | number | `${number}:${string}` | `${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | `count(${number}):${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | IJMQL<F>>
+    ];
     /**
      * Условие для фильтрации результатов запроса
      * где ключи = полям в запросе

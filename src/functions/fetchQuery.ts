@@ -5,7 +5,7 @@ export const mqlFetchQuery = async <T extends Record<"table", string>>(
   mql: IJMQL<T>,
   url: string,
   token = ""
-): Promise<Pick<T, ArrayType<IJMQL<T>["fields"]>>> => {
+): Promise<T[]> => {
   const data = JSON.stringify(mql);
   const conf: RequestInit = {
     body: data,
