@@ -258,6 +258,7 @@ type TFilterOperation<F extends ITableName> = {
   [K in TTableFields<F>]?:
     | `${TBoolNegative}null`
     | `${TOpBase}:${F[K]}`
+    | F[K]
     | `@@${TOpBase}:${TTableFields<F> & string}`
     | IJMQL<F>;
 };
