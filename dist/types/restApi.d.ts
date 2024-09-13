@@ -155,7 +155,7 @@ export type TMergeTInterface<T1 extends ITableName, T2 extends ITableName = {
 };
 type TTableFields<F extends ITableName> = keyof Omit<F, "table">;
 type TFilterOperation<F extends ITableName> = {
-    [K in TTableFields<F>]?: `${TBoolNegative}null` | `${TOpBase}:${F[K]}` | `@@${TOpBase}:${TTableFields<F> & string}` | IJMQL<F>;
+    [K in TTableFields<F>]?: `${TBoolNegative}null` | `${TOpBase}:${F[K]}` | F[K] | `@@${TOpBase}:${TTableFields<F> & string}` | IJMQL<F>;
 };
 type TTableFilters<F extends ITableName> = TFilterOperation<F> | TFilterOperation<F>[];
 /**
