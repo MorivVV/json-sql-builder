@@ -122,15 +122,36 @@ WHERE (kod_user = $2)   ))    [ 1, 42 ]
 TS Intellij from interface
 
 ```ts
+import {
+  IJMQL,
+  TMergeTInterface,
+  IAliasTableFields,
+} from "@morivvv/json-sql-builder/dist/types/restApi";
+interface IBillingResources {
+  table: "billing.resources";
+  id: number;
+  naimen: null | string;
+  post: null | number;
+  on_meter: null | boolean;
+  on_people: null | boolean;
+  date_add: null | string;
+  active: boolean;
+}
+
+const сс: IJMQL<IBillingResources> = {
+  fields: ["active", "naimen", "post:pt"],
+  from: ["billing.resources"],
+  filter: { naimen: "=:id" },
+};
+
 interface A1 {
   table: "blocl";
-  key: 5;
+  key: 5 | 4 | 3 | 2 | 1;
   test: string;
   val: string;
   creatgdf: boolean;
   dte: number;
 }
-
 interface A2 {
   table: "blocl2";
   valu: number;
@@ -143,6 +164,7 @@ interface A3 {
   red: false;
   dte: number;
 }
+
 const a: IJMQL<
   TMergeTInterface<
     IAliasTableFields<A2, "a2">,
@@ -164,3 +186,11 @@ const a: IJMQL<
   ],
 };
 ```
+
+Библиотека предназначена для преобразования JSON объекта в SQL.  
+Параметры для создания объекта максимально типизированы.  
+IJMQL - интерфейс всего объекта, который может принимать на вход класс new Query(a)  
+IBillingResources, A1-A3 - интерфейсы, описывающие все поля таблиц в базе данных. Обязательным ключом является поле table, в котором указывается название таблицы в БД  
+IAliasTableFields - вспомогательный тип, который для каждого поля добавляет указанный префикс, аналогично SQL алиаса  
+TMergeTInterface - вспомогательный тип, объединяющий несколько интерфейсов в один.  
+Все объекты могут быть вложены по правилам SQL: поля, условия фильтра, могут быть подзапросами
