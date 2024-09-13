@@ -74,6 +74,7 @@ type restFields<Fields extends string = string> =
   | IRestGet<Fields>;
 
 type restSortOrder = "-" | "";
+type TPGAggr = "min" | "max" | "count" | "avg" | "sum";
 
 type IRestJoin<Fields extends string = string> = `${Fields}=${Fields}`;
 
@@ -264,40 +265,6 @@ type TTableFilters<F extends ITableName> =
   | TFilterOperation<F>
   | TFilterOperation<F>[];
 
-interface A1 {
-  table: "blocl";
-  key: 5;
-  test: string;
-  val: string;
-  creatgdf: boolean;
-  dte: number;
-}
-
-interface A2 {
-  table: "blocl2";
-  valu: number;
-  red: false;
-  dte: number;
-}
-interface A3 {
-  table: "test.blocl3";
-  valu: number;
-  red: false;
-  dte: number;
-}
-const a: IJMQL<
-  TMergeTInterface<
-    IAliasTableFields<A2, "a2">,
-    IAliasTableFields<A1, "a1">,
-    IAliasTableFields<A3, "a3">
-  >
-> = {
-  from: ["test.blocl3:a3", "blocl:a1", "blocl2:a2", "test.blocl3:a3"],
-  fields: ["a1.dte"],
-  filter: [
-    { "a1.creatgdf": "!=:false", "a3.valu": { from: ["test.blocl3:a3"] } },
-  ],
-};
 /**
  * IJMQL<TMergeTInterface<IAliasTableFields<A2, "a2">, IAliasTableFields<A1, "a1">, IAliasTableFields<A3, "a3">>>
  */
@@ -318,7 +285,15 @@ export interface IJMQL<F extends ITableName> {
    * Для вывода уникальных значений в качестве первого параметра передаем DISTINCT
    */
   fields?: Array<
-    `${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}`
+    | "DISTINCT"
+    | number
+    | `${number}:${string}`
+    | `${TTableFields<F> & string}`
+    | `${TTableFields<F> & string}:${string}`
+    | `${TPGAggr}(${TTableFields<F> & string}):${string}`
+    | `count(${number}):${string}`
+    | `${TPGAggr}(${TTableFields<F> & string}):${string}`
+    | IJMQL<F>
   >;
   /**
    * Условие для фильтрации результатов запроса

@@ -118,3 +118,49 @@ WHERE (id = $1
 AND test in (SELECT a.audit FROM jira.test AS a
 WHERE (kod_user = $2)   ))    [ 1, 42 ]
 ```
+
+TS Intellij from interface
+
+```ts
+interface A1 {
+  table: "blocl";
+  key: 5;
+  test: string;
+  val: string;
+  creatgdf: boolean;
+  dte: number;
+}
+
+interface A2 {
+  table: "blocl2";
+  valu: number;
+  red: false;
+  dte: number;
+}
+interface A3 {
+  table: "test.blocl3";
+  valu: number;
+  red: false;
+  dte: number;
+}
+const a: IJMQL<
+  TMergeTInterface<
+    IAliasTableFields<A2, "a2">,
+    IAliasTableFields<A1, "a1">,
+    IAliasTableFields<A3, "a3">
+  >
+> = {
+  from: ["test.blocl3:a3", "blocl:a1", "blocl2:a2", "test.blocl3:a3"],
+  fields: ["DISTINCT", "a1.dte"],
+  filter: [
+    {
+      "a1.creatgdf": "!=:false",
+      "a3.valu": {
+        from: ["test.blocl3:a3"],
+        fields: ["a3.dte"],
+        filter: { "a1.key": "@@<=:a3.red" },
+      },
+    },
+  ],
+};
+```
