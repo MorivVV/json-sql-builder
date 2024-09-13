@@ -1,7 +1,9 @@
 import { IJMQL } from "../types/restApi";
 type ArrayType<T> = T extends readonly [...infer Item] ? Item[number] : T;
 
-export const mqlFetchQuery = async <T extends Record<"table", string>>(
+export const mqlFetchQuery = async <
+  T extends Record<string, any> & { table: string }
+>(
   mql: IJMQL<T>,
   url: string,
   token = ""
