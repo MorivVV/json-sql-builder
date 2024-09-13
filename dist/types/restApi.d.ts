@@ -14,6 +14,7 @@ type restGetType<Fields extends string = string> = {
 };
 type restFields<Fields extends string = string> = "DISTINCT" | Fields | number | `${Fields}:${string}` | `${number}:${string}` | `${string}(${Fields},${string}):${string}` | `${string}(${Fields | number}):${string}` | `${string}(DISTINCT ${Fields}):${string}` | IRestGet<Fields>;
 type restSortOrder = "-" | "";
+type TPGAggr = "min" | "max" | "count" | "avg" | "sum";
 type IRestJoin<Fields extends string = string> = `${Fields}=${Fields}`;
 type IRestJoinLeft = `${string}=(+)${string}`;
 type IRestJoinRight = `${string}=${string}(+)`;
@@ -176,7 +177,7 @@ export interface IJMQL<F extends ITableName> {
      * Можно использовать подзапрос в качестве поля
      * Для вывода уникальных значений в качестве первого параметра передаем DISTINCT
      */
-    fields?: Array<`${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}`>;
+    fields?: Array<"DISTINCT" | number | `${number}:${string}` | `${TTableFields<F> & string}` | `${TTableFields<F> & string}:${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | `count(${number}):${string}` | `${TPGAggr}(${TTableFields<F> & string}):${string}` | IJMQL<F>>;
     /**
      * Условие для фильтрации результатов запроса
      * где ключи = полям в запросе
