@@ -1,4 +1,6 @@
 import { IJMQL } from "../types/restApi";
+type ArrayType<T> = T extends readonly [...infer Item] ? Item[number] extends string ? Item[number] extends `${infer A}` ? A extends `${string}:${infer B}` ? B : A : never : Item[number] extends number ? Item[number] : never : never;
 export declare const mqlFetchQuery: <T extends Record<string, any> & {
     table: string;
-}>(mql: IJMQL<T>, url: string, token?: string) => Promise<T[]>;
+}>(mql: IJMQL<T>, url: string, token?: string) => Promise<{ [K in ArrayType<typeof mql.fields>]: string; }[]>;
+export {};

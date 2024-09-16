@@ -1,5 +1,15 @@
 import { IJMQL } from "../types/restApi";
-type ArrayType<T> = T extends readonly [...infer Item] ? Item[number] : T;
+type ArrayType<T> = T extends readonly [...infer Item]
+  ? Item[number] extends string
+    ? Item[number] extends `${infer A}`
+      ? A extends `${string}:${infer B}`
+        ? B
+        : A
+      : never
+    : Item[number] extends number
+    ? Item[number]
+    : never
+  : never;
 
 export const mqlFetchQuery = async <
   T extends Record<string, any> & { table: string }
@@ -7,7 +17,7 @@ export const mqlFetchQuery = async <
   mql: IJMQL<T>,
   url: string,
   token = ""
-): Promise<T[]> => {
+): Promise<{ [K in ArrayType<typeof mql.fields>]: string }[]> => {
   const data = JSON.stringify(mql);
   const conf: RequestInit = {
     body: data,
