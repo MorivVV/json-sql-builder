@@ -1,6 +1,6 @@
 {
   "name": "@morivvv/json-sql-builder",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "",
   "private": false,
   "main": "dist/creators/classQuery.js",
