@@ -11,11 +11,18 @@ type ArrayType<T> = T extends readonly [...infer Item]
     : never
   : never;
 
+/**
+ *
+ * Функция получения данных из запроса в формате JSON
+ */
 export const mqlFetchQuery = async <
   T extends Record<string, any> & { table: string }
 >(
+  /**Запрос в формате JSON */
   mql: IJMQL<T>,
+  /**Ссылка на апи */
   url: string,
+  /**Токен для авторизации */
   token = ""
 ): Promise<{ [K in ArrayType<typeof mql.fields>]: string }[]> => {
   const data = JSON.stringify(mql);

@@ -1,7 +1,7 @@
 import { IRestGet, ISQLParam } from "../types/restApi";
 import { allowOperators, postgresTypes } from "./queryConst";
 import { defaultSchema } from "../config/globalSetting";
-import Query from "../creators/classQuery";
+import { Query } from "../creators/classQuery";
 
 export class BasicQuery<
   Fields extends string = string,

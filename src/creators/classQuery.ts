@@ -12,7 +12,7 @@ import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";
 import { defaultSchema } from "../config/globalSetting";
 
-class Query<
+export class Query<
   Fields extends string = string,
   _TBDALLTABLES extends string = string
 > {
@@ -273,5 +273,3 @@ class Query<
     return query;
   }
 }
-
-export default Query;

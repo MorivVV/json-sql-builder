@@ -42,4 +42,7 @@ export const postgresTypes = [
   "float8",
   "float4",
   "real",
+  "timestapmtz",
+  "timestapm",
+  "date",
 ];
