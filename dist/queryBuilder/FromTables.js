@@ -83,4 +83,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
     }
 }
 exports.FromTables = FromTables;
+/**По умолчанию все таблицы проверяются на доступ
+ * можно исключить проверку через этот массив на схемы
+ */
 FromTables.accessTable = [];

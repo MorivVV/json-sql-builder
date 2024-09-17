@@ -8,6 +8,9 @@ interface ITableList {
 }
 export class FromTables extends BasicQuery {
   tables: ITableList[] = [];
+  /**По умолчанию все таблицы проверяются на доступ
+   * можно исключить проверку через этот массив на схемы
+   */
   static accessTable: string[] = [];
   constructor(
     tables: Array<string | IRestGet>,
