@@ -1,5 +1,5 @@
 import type { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
-declare class Query<Fields extends string = string, _TBDALLTABLES extends string = string> {
+export declare class Query<Fields extends string = string, _TBDALLTABLES extends string = string> {
     private toTable;
     private fields;
     private table;
@@ -40,4 +40,3 @@ declare class Query<Fields extends string = string, _TBDALLTABLES extends string
     qGroup(group: string[], fields: Array<string | IRestGet<Fields, _TBDALLTABLES>>): string;
     qLimit(limit: number, offset: number): string;
 }
-export default Query;

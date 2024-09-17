@@ -10,7 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mqlFetchQuery = void 0;
-const mqlFetchQuery = (mql_1, url_1, ...args_1) => __awaiter(void 0, [mql_1, url_1, ...args_1], void 0, function* (mql, url, token = "") {
+/**
+ *
+ * Функция получения данных из запроса в формате JSON
+ */
+const mqlFetchQuery = (mql_1, url_1, ...args_1) => __awaiter(void 0, [mql_1, url_1, ...args_1], void 0, function* (
+/**Запрос в формате JSON */
+mql, 
+/**Ссылка на апи */
+url, 
+/**Токен для авторизации */
+token = "") {
     const data = JSON.stringify(mql);
     const conf = {
         body: data,

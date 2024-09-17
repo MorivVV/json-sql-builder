@@ -44,4 +44,7 @@ exports.postgresTypes = [
     "float8",
     "float4",
     "real",
+    "timestapmtz",
+    "timestapm",
+    "date",
 ];

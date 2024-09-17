@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BasicQuery = void 0;
 const queryConst_1 = require("./queryConst");
 const globalSetting_1 = require("../config/globalSetting");
-const classQuery_1 = __importDefault(require("../creators/classQuery"));
+const classQuery_1 = require("../creators/classQuery");
 class BasicQuery {
     constructor(valNum = 0, token, user_id) {
         this.values = [];
@@ -112,7 +109,7 @@ class BasicQuery {
         return Object.assign({}, parameter);
     }
     subQuery(restTable) {
-        const childSQL = new classQuery_1.default(restTable, this.valNum + this.values.length, this.token, this.userId);
+        const childSQL = new classQuery_1.Query(restTable, this.valNum + this.values.length, this.token, this.userId);
         const cSelect = childSQL.getSelect();
         this.values = this.values.concat(childSQL.getValues());
         return cSelect;

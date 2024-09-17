@@ -1,1 +1,0 @@
-{"version":3,"file":"globalSetting.js","sourceRoot":"","sources":["../../src/config/globalSetting.ts"],"names":[],"mappings":";;;AAAA,8BAA8B;AACjB,QAAA,aAAa,GAAG,OAAO,CAAC,GAAG,CAAC,uBAAuB,IAAI,QAAQ,CAAC;AAChE,QAAA,WAAW,GAAG,OAAO,CAAC,GAAG,CAAC,YAAY,IAAI;IACrD,YAAY;IACZ,oBAAoB;CACrB,CAAC"}

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Query = void 0;
 const JoinTables_1 = require("../queryBuilder/JoinTables");
 const getField_1 = __importDefault(require("./getField"));
 const getOperator_1 = __importDefault(require("./getOperator"));
@@ -177,4 +178,4 @@ class Query {
         return query;
     }
 }
-exports.default = Query;
+exports.Query = Query;
