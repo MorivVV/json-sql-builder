@@ -40,7 +40,7 @@ class Query {
         query.push(this.qGroup(this.group, this.fields));
         query.push(this.qOrder(this.order));
         query.push(this.qLimit(this.limit, this.offset));
-        return query.join(Query.SQLSectionDelimiter);
+        return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     getUpdate() {
         const query = [];
@@ -49,7 +49,7 @@ class Query {
         query.push(pTable.table);
         query.push(this.qSet(this.setFields));
         query.push(this.qWhere(this.where));
-        return query.join(Query.SQLSectionDelimiter);
+        return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     getInsert() {
         const query = [];
@@ -59,7 +59,7 @@ class Query {
         query.push(this.qInsert(this.toFields));
         query.push(this.qFrom(this.table, this.join));
         query.push(this.qWhere(this.where));
-        return query.join(Query.SQLSectionDelimiter);
+        return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     getDelete() {
         const query = [];
@@ -67,7 +67,7 @@ class Query {
         query.push("DELETE FROM");
         query.push(pTable.table);
         query.push(this.qWhere(this.where));
-        return query.join(Query.SQLSectionDelimiter);
+        return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     qInsert(fields) {
         let query = "(";
