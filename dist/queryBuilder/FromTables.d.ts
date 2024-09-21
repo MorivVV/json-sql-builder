@@ -11,6 +11,10 @@ export declare class FromTables extends BasicQuery {
      * можно исключить проверку через этот массив на схемы
      */
     static notAccessShemeOrTable: string[];
+    /**Принудительная проверка таблиц
+     * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
+     */
+    static forcedAccessTables: string[];
     constructor(tables: Array<string | IRestGet>, valNum: number | undefined, token: string, userId: string);
     private stringTable;
     private _subQuery;

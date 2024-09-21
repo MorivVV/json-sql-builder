@@ -12,6 +12,10 @@ export class FromTables extends BasicQuery {
    * можно исключить проверку через этот массив на схемы
    */
   static notAccessShemeOrTable: string[] = [];
+  /**Принудительная проверка таблиц
+   * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
+   */
+  static forcedAccessTables: string[] = [];
   constructor(
     tables: Array<string | IRestGet>,
     valNum = 0,
@@ -44,7 +48,9 @@ export class FromTables extends BasicQuery {
     }
     const pTable = this.splitTable(table);
     pTable.table = pTable.scheme + "." + pTable.table;
-    if (
+    if (FromTables.forcedAccessTables.includes(pTable.table)) {
+      pTable.table = this.addAccess(pTable.table);
+    } else if (
       !FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
       !FromTables.notAccessShemeOrTable.includes(pTable.table)
     ) {

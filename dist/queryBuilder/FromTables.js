@@ -33,7 +33,10 @@ class FromTables extends BasicQuery_1.BasicQuery {
         }
         const pTable = this.splitTable(table);
         pTable.table = pTable.scheme + "." + pTable.table;
-        if (!FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
+        if (FromTables.forcedAccessTables.includes(pTable.table)) {
+            pTable.table = this.addAccess(pTable.table);
+        }
+        else if (!FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
             !FromTables.notAccessShemeOrTable.includes(pTable.table)) {
             pTable.table = this.addAccess(pTable.table);
         }
@@ -88,3 +91,7 @@ exports.FromTables = FromTables;
  * можно исключить проверку через этот массив на схемы
  */
 FromTables.notAccessShemeOrTable = [];
+/**Принудительная проверка таблиц
+ * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
+ */
+FromTables.forcedAccessTables = [];
