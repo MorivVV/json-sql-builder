@@ -122,7 +122,7 @@ export class WhereFilter<
         // console.log("цикл значения", this.valNum);
       }
     }
-    return query.join("\nAND ");
+    return query.filter((q) => q).join("\nAND ");
   }
 
   whereOr(
@@ -145,8 +145,6 @@ export class WhereFilter<
   }
 
   toString() {
-    // console.log(this.queryString, this.values);
-
     return this.queryString ? "WHERE " + this.queryString : "";
   }
 }

@@ -31,7 +31,7 @@ export class FromTables extends BasicQuery {
         ({ pTable, alias } = this._subQuery(table));
       }
       this.tables.push({ ...pTable, alias, use });
-      if (index === 0) this.queryString = "\nFROM ";
+      if (index === 0) this.queryString = "FROM ";
     }
   }
 
