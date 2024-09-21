@@ -21,7 +21,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
             }
             this.tables.push(Object.assign(Object.assign({}, pTable), { alias, use }));
             if (index === 0)
-                this.queryString = "FROM ";
+                this.queryString = "\nFROM ";
         }
     }
     stringTable(strTable, ind = 0) {
@@ -33,7 +33,8 @@ class FromTables extends BasicQuery_1.BasicQuery {
         }
         const pTable = this.splitTable(table);
         pTable.table = pTable.scheme + "." + pTable.table;
-        if (!FromTables.accessTable.includes(pTable.scheme)) {
+        if (!FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
+            !FromTables.notAccessShemeOrTable.includes(pTable.table)) {
             pTable.table = this.addAccess(pTable.table);
         }
         return { pTable, alias };
@@ -61,7 +62,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
       INNER JOIN ${globalSetting_1.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
       INNER JOIN ${globalSetting_1.defaultSchema}.bz_users as u ON ru.kod_user = u.id
       INNER JOIN ${globalSetting_1.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
-      WHERE ut.session_token = '${this.token}' 
+    WHERE ut.session_token = '${this.token}' 
       AND r.full_access = true
       AND u.active = true
       AND ut.active = true
@@ -86,4 +87,4 @@ exports.FromTables = FromTables;
 /**По умолчанию все таблицы проверяются на доступ
  * можно исключить проверку через этот массив на схемы
  */
-FromTables.accessTable = [];
+FromTables.notAccessShemeOrTable = [];

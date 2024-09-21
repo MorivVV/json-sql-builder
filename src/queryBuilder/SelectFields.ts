@@ -4,7 +4,12 @@ import { BasicQuery } from "./BasicQuery";
 export class SelectFields extends BasicQuery {
   private fields: string[] = [];
 
-  constructor(fields: Array<string | IRestGet> | undefined, valNum = 0, token: string, userId: string) {
+  constructor(
+    fields: Array<string | IRestGet> | undefined,
+    valNum = 0,
+    token: string,
+    userId: string
+  ) {
     super(valNum, token, userId);
     this.queryString = "SELECT ";
     if (!fields || fields.length === 0) {
@@ -20,7 +25,9 @@ export class SelectFields extends BasicQuery {
         } else {
           this.fields.push(parsedField);
         }
-      } else if (Object.prototype.toString.call(element) === "[object Object]") {
+      } else if (
+        Object.prototype.toString.call(element) === "[object Object]"
+      ) {
         const cSelect = this.subQuery(element as IRestGet);
         this.fields.push(`(${cSelect})`);
       }
@@ -28,6 +35,6 @@ export class SelectFields extends BasicQuery {
   }
 
   toString() {
-    return this.queryString + this.fields.join(", ");
+    return this.queryString + this.fields.join("\n, ");
   }
 }

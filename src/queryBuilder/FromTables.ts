@@ -11,7 +11,7 @@ export class FromTables extends BasicQuery {
   /**По умолчанию все таблицы проверяются на доступ
    * можно исключить проверку через этот массив на схемы
    */
-  static accessTable: string[] = [];
+  static notAccessShemeOrTable: string[] = [];
   constructor(
     tables: Array<string | IRestGet>,
     valNum = 0,
@@ -31,7 +31,7 @@ export class FromTables extends BasicQuery {
         ({ pTable, alias } = this._subQuery(table));
       }
       this.tables.push({ ...pTable, alias, use });
-      if (index === 0) this.queryString = "FROM ";
+      if (index === 0) this.queryString = "\nFROM ";
     }
   }
 
@@ -44,7 +44,10 @@ export class FromTables extends BasicQuery {
     }
     const pTable = this.splitTable(table);
     pTable.table = pTable.scheme + "." + pTable.table;
-    if (!FromTables.accessTable.includes(pTable.scheme)) {
+    if (
+      !FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
+      !FromTables.notAccessShemeOrTable.includes(pTable.table)
+    ) {
       pTable.table = this.addAccess(pTable.table);
     }
     return { pTable, alias };
@@ -73,7 +76,7 @@ export class FromTables extends BasicQuery {
       INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
       INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
       INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
-      WHERE ut.session_token = '${this.token}' 
+    WHERE ut.session_token = '${this.token}' 
       AND r.full_access = true
       AND u.active = true
       AND ut.active = true

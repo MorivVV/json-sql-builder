@@ -29,7 +29,7 @@ class SelectFields extends BasicQuery_1.BasicQuery {
         }
     }
     toString() {
-        return this.queryString + this.fields.join(", ");
+        return this.queryString + this.fields.join("\n, ");
     }
 }
 exports.SelectFields = SelectFields;

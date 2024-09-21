@@ -10,7 +10,7 @@ export declare class FromTables extends BasicQuery {
     /**По умолчанию все таблицы проверяются на доступ
      * можно исключить проверку через этот массив на схемы
      */
-    static accessTable: string[];
+    static notAccessShemeOrTable: string[];
     constructor(tables: Array<string | IRestGet>, valNum: number | undefined, token: string, userId: string);
     private stringTable;
     private _subQuery;
