@@ -16,6 +16,7 @@ export class Query<
   Fields extends string = string,
   _TBDALLTABLES extends string = string
 > {
+  static SQLSectionDelimiter = "\n";
   private toTable: string;
   private fields: string[];
   private table: string[];
@@ -44,7 +45,6 @@ export class Query<
     | null
     | Array<string | number | boolean>
   >;
-  private query: string;
   private token: string;
   private userId: string;
 
@@ -71,7 +71,6 @@ export class Query<
     this.offset = getField("page", sqlObj);
     this.values = [];
     this.num = valNum;
-    this.query = "";
     this.token = token;
     this.userId = userId;
   }
@@ -88,7 +87,7 @@ export class Query<
     query.push(this.qGroup(this.group, this.fields));
     query.push(this.qOrder(this.order));
     query.push(this.qLimit(this.limit, this.offset));
-    return query.join("\n ");
+    return query.join(Query.SQLSectionDelimiter);
   }
 
   getUpdate() {
@@ -98,7 +97,7 @@ export class Query<
     query.push(pTable.table);
     query.push(this.qSet(this.setFields));
     query.push(this.qWhere(this.where));
-    return query.join("\n ");
+    return query.join(Query.SQLSectionDelimiter);
   }
 
   getInsert() {
@@ -109,7 +108,7 @@ export class Query<
     query.push(this.qInsert(this.toFields));
     query.push(this.qFrom(this.table, this.join));
     query.push(this.qWhere(this.where));
-    return query.join(" ");
+    return query.join(Query.SQLSectionDelimiter);
   }
 
   getDelete() {
@@ -118,7 +117,7 @@ export class Query<
     query.push("DELETE FROM");
     query.push(pTable.table);
     query.push(this.qWhere(this.where));
-    return query.join(" ");
+    return query.join(Query.SQLSectionDelimiter);
   }
 
   qInsert(fields: string[]) {
@@ -228,7 +227,7 @@ export class Query<
     if (query.length === 0) {
       return "";
     }
-    return "\nORDER BY " + query.join(", ");
+    return "ORDER BY " + query.join(", ");
   }
 
   qGroup(
@@ -255,21 +254,21 @@ export class Query<
     if (query.length === 0 || !checkSelectFielsd) {
       return "";
     }
-    return "\nGROUP BY " + query.join(", ");
+    return "GROUP BY " + query.join(", ");
   }
 
   qLimit(limit: number, offset: number) {
-    let query = "";
+    let query: string[] = [];
     // ограничение выдаваемых записей
     if (limit) {
-      query += "\nLIMIT " + limit;
+      query.push("LIMIT " + limit);
     }
     if (offset && limit) {
       offset = (offset - 1) * limit;
       if (offset > 0) {
-        query += "\nOFFSET " + offset;
+        query.push("OFFSET " + offset);
       }
     }
-    return query;
+    return query.join(Query.SQLSectionDelimiter);
   }
 }

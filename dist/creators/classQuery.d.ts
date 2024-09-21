@@ -1,5 +1,6 @@
 import type { IrestDelete, IRestGet, IrestInsert, IrestUpdate } from "../types/restApi";
 export declare class Query<Fields extends string = string, _TBDALLTABLES extends string = string> {
+    static SQLSectionDelimiter: string;
     private toTable;
     private fields;
     private table;
@@ -13,7 +14,6 @@ export declare class Query<Fields extends string = string, _TBDALLTABLES extends
     private offset;
     private num;
     private values;
-    private query;
     private token;
     private userId;
     constructor(sqlObj: IRestGet<Fields, _TBDALLTABLES> | IrestUpdate | IrestDelete | IrestInsert, valNum: number | undefined, token: string, userId: string);

@@ -26,7 +26,6 @@ class Query {
         this.offset = (0, getField_1.default)("page", sqlObj);
         this.values = [];
         this.num = valNum;
-        this.query = "";
         this.token = token;
         this.userId = userId;
     }
@@ -41,7 +40,7 @@ class Query {
         query.push(this.qGroup(this.group, this.fields));
         query.push(this.qOrder(this.order));
         query.push(this.qLimit(this.limit, this.offset));
-        return query.join("\n ");
+        return query.join(Query.SQLSectionDelimiter);
     }
     getUpdate() {
         const query = [];
@@ -50,7 +49,7 @@ class Query {
         query.push(pTable.table);
         query.push(this.qSet(this.setFields));
         query.push(this.qWhere(this.where));
-        return query.join("\n ");
+        return query.join(Query.SQLSectionDelimiter);
     }
     getInsert() {
         const query = [];
@@ -60,7 +59,7 @@ class Query {
         query.push(this.qInsert(this.toFields));
         query.push(this.qFrom(this.table, this.join));
         query.push(this.qWhere(this.where));
-        return query.join(" ");
+        return query.join(Query.SQLSectionDelimiter);
     }
     getDelete() {
         const query = [];
@@ -68,7 +67,7 @@ class Query {
         query.push("DELETE FROM");
         query.push(pTable.table);
         query.push(this.qWhere(this.where));
-        return query.join(" ");
+        return query.join(Query.SQLSectionDelimiter);
     }
     qInsert(fields) {
         let query = "(";
@@ -139,7 +138,7 @@ class Query {
         if (query.length === 0) {
             return "";
         }
-        return "\nORDER BY " + query.join(", ");
+        return "ORDER BY " + query.join(", ");
     }
     qGroup(group, fields) {
         const query = [];
@@ -161,21 +160,22 @@ class Query {
         if (query.length === 0 || !checkSelectFielsd) {
             return "";
         }
-        return "\nGROUP BY " + query.join(", ");
+        return "GROUP BY " + query.join(", ");
     }
     qLimit(limit, offset) {
-        let query = "";
+        let query = [];
         // ограничение выдаваемых записей
         if (limit) {
-            query += "\nLIMIT " + limit;
+            query.push("LIMIT " + limit);
         }
         if (offset && limit) {
             offset = (offset - 1) * limit;
             if (offset > 0) {
-                query += "\nOFFSET " + offset;
+                query.push("OFFSET " + offset);
             }
         }
-        return query;
+        return query.join(Query.SQLSectionDelimiter);
     }
 }
 exports.Query = Query;
+Query.SQLSectionDelimiter = "\n";

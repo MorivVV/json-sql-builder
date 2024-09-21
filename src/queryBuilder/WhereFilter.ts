@@ -147,6 +147,6 @@ export class WhereFilter<
   toString() {
     // console.log(this.queryString, this.values);
 
-    return this.queryString ? "\nWHERE " + this.queryString : "";
+    return this.queryString ? "WHERE " + this.queryString : "";
   }
 }

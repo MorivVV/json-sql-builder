@@ -91,7 +91,7 @@ class WhereFilter extends BasicQuery_1.BasicQuery {
     }
     toString() {
         // console.log(this.queryString, this.values);
-        return this.queryString ? "\nWHERE " + this.queryString : "";
+        return this.queryString ? "WHERE " + this.queryString : "";
     }
 }
 exports.WhereFilter = WhereFilter;
