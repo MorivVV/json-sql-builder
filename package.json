@@ -1,6 +1,6 @@
 {
   "name": "@morivvv/json-sql-builder",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "",
   "private": false,
   "main": "dist/index.js",
