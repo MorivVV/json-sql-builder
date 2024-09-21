@@ -77,7 +77,7 @@ class WhereFilter extends BasicQuery_1.BasicQuery {
                 // console.log("цикл значения", this.valNum);
             }
         }
-        return query.join("\nAND ");
+        return query.filter((q) => q).join("\nAND ");
     }
     whereOr(array) {
         const query = [];
@@ -90,7 +90,6 @@ class WhereFilter extends BasicQuery_1.BasicQuery {
         return query.join("\n OR ");
     }
     toString() {
-        // console.log(this.queryString, this.values);
         return this.queryString ? "WHERE " + this.queryString : "";
     }
 }

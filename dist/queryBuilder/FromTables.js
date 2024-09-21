@@ -21,7 +21,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
             }
             this.tables.push(Object.assign(Object.assign({}, pTable), { alias, use }));
             if (index === 0)
-                this.queryString = "\nFROM ";
+                this.queryString = "FROM ";
         }
     }
     stringTable(strTable, ind = 0) {
