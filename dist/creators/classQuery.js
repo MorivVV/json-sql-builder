@@ -53,7 +53,7 @@ class Query {
         query.push(iWhere);
         const accessUpd = new BasicQuery_1.BasicQuery(0, this.token, this.userId);
         if (accessUpd.needCheckAccess(pTable.table)) {
-            const sqlAcc = "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+            const sqlAcc = "id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
             query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
         }
         return query.filter((q) => q).join(Query.SQLSectionDelimiter);
