@@ -29,5 +29,5 @@ export declare class BasicQuery<Fields extends string = string, _TBDALLTABLES ex
     };
     subQuery(restTable: IRestGet<Fields, _TBDALLTABLES>): string;
     needCheckAccess(table: string): boolean;
-    allowTableData(table: string): string;
+    allowTableData(table: string, selectFields?: string): string;
 }

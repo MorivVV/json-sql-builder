@@ -62,23 +62,8 @@ export class FromTables extends BasicQuery {
   }
 
   private addAccess(table: string) {
-    return `(SELECT *
-    FROM ${table} AS t
-    WHERE 
-    NOT EXISTS (SELECT 1 FROM ${defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
-    OR EXISTS (SELECT 1 FROM ${defaultSchema}.roles as r 
-      INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-      INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
-      INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
-    WHERE ut.session_token = '${this.token}' 
-      AND r.full_access = true
-      AND u.active = true
-      AND ut.active = true
-      LIMIT 1)
-    OR t.id in 
-    (
-      ${this.allowTableData(table)}
-    ) )`;
+    return `(${this.allowTableData(table)}
+     )`;
   }
 
   checkAccess(table: string) {

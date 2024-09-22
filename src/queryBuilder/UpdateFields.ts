@@ -66,7 +66,7 @@ export class UpdateFields extends BasicQuery {
   }
 
   whereUpdateAccess(table: string) {
-    return "AND id in (" + this.allowTableData(table) + ")";
+    return "AND id in (" + this.allowTableData(table, "id") + ")";
   }
 
   toString() {

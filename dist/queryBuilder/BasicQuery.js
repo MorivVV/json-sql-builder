@@ -127,8 +127,22 @@ class BasicQuery {
             return false;
         }
     }
-    allowTableData(table) {
-        return `SELECT table_identificator 
+    allowTableData(table, selectFields = "*") {
+        return `SELECT ${selectFields}
+    FROM ${table} AS t
+    WHERE 
+    NOT EXISTS (SELECT 1 FROM ${globalSetting_1.defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
+    OR EXISTS (SELECT 1 FROM ${globalSetting_1.defaultSchema}.roles as r 
+      INNER JOIN ${globalSetting_1.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+      INNER JOIN ${globalSetting_1.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+      INNER JOIN ${globalSetting_1.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+    WHERE ut.session_token = '${this.token}' 
+      AND r.full_access = true
+      AND u.active = true
+      AND ut.active = true
+      LIMIT 1)
+    OR t.id in 
+    (SELECT table_identificator 
       FROM ${globalSetting_1.defaultSchema}.rights_elements as re
         INNER JOIN ${globalSetting_1.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
         INNER JOIN ${globalSetting_1.defaultSchema}.roles as r ON re.kod_role = r.id 
@@ -138,7 +152,7 @@ class BasicQuery {
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
         AND u.active = true
-        AND ut.active = true`;
+        AND ut.active = true)`;
     }
 }
 exports.BasicQuery = BasicQuery;
