@@ -137,7 +137,7 @@ export class Query<
     const accessUpd = new BasicQuery(0, this.token, this.userId);
     if (accessUpd.needCheckAccess(pTable.table)) {
       const sqlAcc =
-        "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+        "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 30) + ")";
       query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
     }
     return query.filter((q) => q).join(Query.SQLSectionDelimiter);

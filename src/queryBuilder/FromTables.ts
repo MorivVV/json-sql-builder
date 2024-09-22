@@ -41,8 +41,8 @@ export class FromTables extends BasicQuery {
     }
     const pTable = this.splitTable(table);
     pTable.table = pTable.scheme + "." + pTable.table;
-    if (this.needCheckAccess(table)) {
-      pTable.table = `(${this.allowTableData(table)})`;
+    if (this.needCheckAccess(pTable.table)) {
+      pTable.table = `(${this.allowTableData(pTable.table)})`;
     }
     return { pTable, alias };
   }
