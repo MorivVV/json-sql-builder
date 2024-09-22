@@ -8,14 +8,7 @@ interface ITableList {
 }
 export class FromTables extends BasicQuery {
   tables: ITableList[] = [];
-  /**По умолчанию все таблицы проверяются на доступ
-   * можно исключить проверку через этот массив на схемы
-   */
-  static notAccessShemeOrTable: string[] = [];
-  /**Принудительная проверка таблиц
-   * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
-   */
-  static forcedAccessTables: string[] = [];
+
   constructor(
     tables: Array<string | IRestGet>,
     valNum = 0,
@@ -48,12 +41,7 @@ export class FromTables extends BasicQuery {
     }
     const pTable = this.splitTable(table);
     pTable.table = pTable.scheme + "." + pTable.table;
-    if (FromTables.forcedAccessTables.includes(pTable.table)) {
-      pTable.table = this.addAccess(pTable.table);
-    } else if (
-      !FromTables.notAccessShemeOrTable.includes(pTable.scheme) &&
-      !FromTables.notAccessShemeOrTable.includes(pTable.table)
-    ) {
+    if (this.needCheckAccess(table)) {
       pTable.table = this.addAccess(pTable.table);
     }
     return { pTable, alias };
@@ -89,7 +77,12 @@ export class FromTables extends BasicQuery {
       LIMIT 1)
     OR t.id in 
     (
-      SELECT table_identificator 
+      ${this.allowTableData(table)}
+    ) )`;
+  }
+
+  checkAccess(table: string) {
+    return `SELECT DISTINCT re.kod_role, re.kod_table, $1 
       FROM ${defaultSchema}.rights_elements as re
         INNER JOIN ${defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
         INNER JOIN ${defaultSchema}.roles as r ON re.kod_role = r.id 
@@ -98,6 +91,7 @@ export class FromTables extends BasicQuery {
         INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
+        and ru.access_level >= 10
         AND u.active = true
         AND ut.active = true
     ) )`;

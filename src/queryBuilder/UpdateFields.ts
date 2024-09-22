@@ -6,7 +6,15 @@ export class UpdateFields extends BasicQuery {
   private fields: string[] = [];
 
   constructor(
-    set: { [key: string]: string | number | null | boolean | Array<string | number | boolean> | IRestGet },
+    set: {
+      [key: string]:
+        | string
+        | number
+        | null
+        | boolean
+        | Array<string | number | boolean>
+        | IRestGet;
+    },
     valNum = 0,
     token: string,
     userId: string
@@ -23,17 +31,23 @@ export class UpdateFields extends BasicQuery {
           element === null ||
           Array.isArray(element)
         ) {
-          const parsedField = this.changeParameterValue(this.parseParameter(element));
+          const parsedField = this.changeParameterValue(
+            this.parseParameter(element)
+          );
           const arrParam: Array<string | number | boolean | null> = [];
           arrParam.push(`"${key}"`);
           arrParam.push("=");
           const currentParamNum = this.valNum + this.values.length + 1;
-          arrParam.push((parsedField.field || "$" + currentParamNum) + parsedField.type);
+          arrParam.push(
+            (parsedField.field || "$" + currentParamNum) + parsedField.type
+          );
           if (!parsedField.field) {
             this.values.push(parsedField.value);
           }
           this.fields.push(arrParam.join(" "));
-        } else if (Object.prototype.toString.call(element) === "[object Object]") {
+        } else if (
+          Object.prototype.toString.call(element) === "[object Object]"
+        ) {
           const cSelect = this.subQuery(element as IRestGet);
           const arrParam: Array<string | number | boolean | null> = [];
           arrParam.push(`"${key}"`);
@@ -49,6 +63,10 @@ export class UpdateFields extends BasicQuery {
       return;
     }
     this.queryString = "SET ";
+  }
+
+  whereUpdateAccess(table: string) {
+    return "AND id in (" + this.allowTableData(table) + ")";
   }
 
   toString() {

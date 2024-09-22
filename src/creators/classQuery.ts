@@ -97,6 +97,13 @@ export class Query<
     query.push(pTable.table);
     query.push(this.qSet(this.setFields));
     query.push(this.qWhere(this.where));
+    const set = new UpdateFields(
+      this.setFields,
+      this.num + this.values.length,
+      this.token,
+      this.userId
+    );
+    query.push(set.whereUpdateAccess(pTable.table));
     return query.filter((q) => q).join(Query.SQLSectionDelimiter);
   }
 

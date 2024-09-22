@@ -7,6 +7,14 @@ export class BasicQuery<
   Fields extends string = string,
   _TBDALLTABLES extends string = string
 > {
+  /**По умолчанию все таблицы проверяются на доступ
+   * можно исключить проверку через этот массив на схемы
+   */
+  static notAccessShemeOrTable: string[] = [];
+  /**Принудительная проверка таблиц
+   * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
+   */
+  static forcedAccessTables: string[] = [];
   values: Array<
     | string
     // | IRestGet<Fields, _TBDALLTABLES>
@@ -147,5 +155,33 @@ export class BasicQuery<
     const cSelect = childSQL.getSelect();
     this.values = this.values.concat(childSQL.getValues());
     return cSelect;
+  }
+
+  needCheckAccess(table: string) {
+    const tableSplit = this.splitTable(table);
+    if (BasicQuery.forcedAccessTables.includes(table)) {
+      return true;
+    } else if (
+      !BasicQuery.notAccessShemeOrTable.includes(tableSplit.scheme) &&
+      !BasicQuery.notAccessShemeOrTable.includes(table)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  allowTableData(table: string) {
+    return `SELECT table_identificator 
+      FROM ${defaultSchema}.rights_elements as re
+        INNER JOIN ${defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
+        INNER JOIN ${defaultSchema}.roles as r ON re.kod_role = r.id 
+        INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      WHERE rt.naimen = '${table}'
+        AND ut.session_token = '${this.token}'
+        AND u.active = true
+        AND ut.active = true`;
   }
 }
