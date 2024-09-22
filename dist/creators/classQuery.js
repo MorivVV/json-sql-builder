@@ -11,7 +11,7 @@ const UpdateFields_1 = require("../queryBuilder/UpdateFields");
 const SelectFields_1 = require("../queryBuilder/SelectFields");
 const WhereFilter_1 = require("../queryBuilder/WhereFilter");
 const globalSetting_1 = require("../config/globalSetting");
-const BasicQuery_1 = require("src/queryBuilder/BasicQuery");
+const BasicQuery_1 = require("../queryBuilder/BasicQuery");
 class Query {
     constructor(sqlObj, valNum = 0, token, userId) {
         this.toTable = (0, getField_1.default)("to", sqlObj);

@@ -11,7 +11,7 @@ import { UpdateFields } from "../queryBuilder/UpdateFields";
 import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";
 import { defaultSchema } from "../config/globalSetting";
-import { BasicQuery } from "src/queryBuilder/BasicQuery";
+import { BasicQuery } from "../queryBuilder/BasicQuery";
 
 export class Query<
   Fields extends string = string,
