@@ -11,6 +11,7 @@ import { UpdateFields } from "../queryBuilder/UpdateFields";
 import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";
 import { defaultSchema } from "../config/globalSetting";
+import { BasicQuery } from "src/queryBuilder/BasicQuery";
 
 export class Query<
   Fields extends string = string,
@@ -96,14 +97,14 @@ export class Query<
     query.push("UPDATE");
     query.push(pTable.table);
     query.push(this.qSet(this.setFields));
-    query.push(this.qWhere(this.where));
-    const set = new UpdateFields(
-      this.setFields,
-      this.num + this.values.length,
-      this.token,
-      this.userId
-    );
-    query.push(set.whereUpdateAccess(pTable.table));
+    const iWhere = this.qWhere(this.where);
+    query.push(iWhere);
+    const accessUpd = new BasicQuery(0, this.token, this.userId);
+    if (accessUpd.needCheckAccess(pTable.table)) {
+      const sqlAcc =
+        "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+      query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+    }
     return query.filter((q) => q).join(Query.SQLSectionDelimiter);
   }
 
@@ -114,7 +115,15 @@ export class Query<
     query.push(pTable.table);
     query.push(this.qInsert(this.toFields));
     query.push(this.qFrom(this.table, this.join));
-    query.push(this.qWhere(this.where));
+    const iWhere = this.qWhere(this.where);
+    query.push(iWhere);
+    const accessIns = new BasicQuery(0, this.token, this.userId);
+    if (accessIns.needCheckAccess(pTable.table)) {
+      const sqlAcc =
+        "EXISTS (" + accessIns.allowTableData(pTable.table, "id", 10) + ")";
+      query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+    }
+
     return query.filter((q) => q).join(Query.SQLSectionDelimiter);
   }
 
@@ -123,7 +132,14 @@ export class Query<
     const pTable = this.parseTable(String(this.table));
     query.push("DELETE FROM");
     query.push(pTable.table);
-    query.push(this.qWhere(this.where));
+    const iWhere = this.qWhere(this.where);
+    query.push(iWhere);
+    const accessUpd = new BasicQuery(0, this.token, this.userId);
+    if (accessUpd.needCheckAccess(pTable.table)) {
+      const sqlAcc =
+        "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+      query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+    }
     return query.filter((q) => q).join(Query.SQLSectionDelimiter);
   }
 
