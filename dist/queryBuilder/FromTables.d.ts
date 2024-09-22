@@ -10,7 +10,6 @@ export declare class FromTables extends BasicQuery {
     constructor(tables: Array<string | IRestGet>, valNum: number | undefined, token: string, userId: string);
     private stringTable;
     private _subQuery;
-    private addAccess;
     checkAccess(table: string): string;
 }
 export {};

@@ -11,6 +11,7 @@ const UpdateFields_1 = require("../queryBuilder/UpdateFields");
 const SelectFields_1 = require("../queryBuilder/SelectFields");
 const WhereFilter_1 = require("../queryBuilder/WhereFilter");
 const globalSetting_1 = require("../config/globalSetting");
+const BasicQuery_1 = require("src/queryBuilder/BasicQuery");
 class Query {
     constructor(sqlObj, valNum = 0, token, userId) {
         this.toTable = (0, getField_1.default)("to", sqlObj);
@@ -48,9 +49,13 @@ class Query {
         query.push("UPDATE");
         query.push(pTable.table);
         query.push(this.qSet(this.setFields));
-        query.push(this.qWhere(this.where));
-        const set = new UpdateFields_1.UpdateFields(this.setFields, this.num + this.values.length, this.token, this.userId);
-        query.push(set.whereUpdateAccess(pTable.table));
+        const iWhere = this.qWhere(this.where);
+        query.push(iWhere);
+        const accessUpd = new BasicQuery_1.BasicQuery(0, this.token, this.userId);
+        if (accessUpd.needCheckAccess(pTable.table)) {
+            const sqlAcc = "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+            query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+        }
         return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     getInsert() {
@@ -60,7 +65,13 @@ class Query {
         query.push(pTable.table);
         query.push(this.qInsert(this.toFields));
         query.push(this.qFrom(this.table, this.join));
-        query.push(this.qWhere(this.where));
+        const iWhere = this.qWhere(this.where);
+        query.push(iWhere);
+        const accessIns = new BasicQuery_1.BasicQuery(0, this.token, this.userId);
+        if (accessIns.needCheckAccess(pTable.table)) {
+            const sqlAcc = "EXISTS (" + accessIns.allowTableData(pTable.table, "id", 10) + ")";
+            query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+        }
         return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     getDelete() {
@@ -68,7 +79,13 @@ class Query {
         const pTable = this.parseTable(String(this.table));
         query.push("DELETE FROM");
         query.push(pTable.table);
-        query.push(this.qWhere(this.where));
+        const iWhere = this.qWhere(this.where);
+        query.push(iWhere);
+        const accessUpd = new BasicQuery_1.BasicQuery(0, this.token, this.userId);
+        if (accessUpd.needCheckAccess(pTable.table)) {
+            const sqlAcc = "AND id in (" + accessUpd.allowTableData(pTable.table, "id", 20) + ")";
+            query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
+        }
         return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     qInsert(fields) {

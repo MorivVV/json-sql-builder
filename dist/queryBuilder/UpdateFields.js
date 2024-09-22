@@ -42,9 +42,6 @@ class UpdateFields extends BasicQuery_1.BasicQuery {
         }
         this.queryString = "SET ";
     }
-    whereUpdateAccess(table) {
-        return "AND id in (" + this.allowTableData(table, "id", 20) + ")";
-    }
     toString() {
         return this.queryString + this.fields.join(", ");
     }

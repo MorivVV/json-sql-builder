@@ -34,7 +34,7 @@ class FromTables extends BasicQuery_1.BasicQuery {
         const pTable = this.splitTable(table);
         pTable.table = pTable.scheme + "." + pTable.table;
         if (this.needCheckAccess(table)) {
-            pTable.table = this.addAccess(pTable.table);
+            pTable.table = `(${this.allowTableData(table)})`;
         }
         return { pTable, alias };
     }
@@ -51,10 +51,6 @@ class FromTables extends BasicQuery_1.BasicQuery {
             alias = "t" + this.valNum;
         }
         return { pTable, alias };
-    }
-    addAccess(table) {
-        return `(${this.allowTableData(table)}
-     )`;
     }
     checkAccess(table) {
         return `SELECT DISTINCT re.kod_role, re.kod_table, $1 
