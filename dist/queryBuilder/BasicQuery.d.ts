@@ -1,5 +1,13 @@
 import { IRestGet, ISQLParam } from "../types/restApi";
 export declare class BasicQuery<Fields extends string = string, _TBDALLTABLES extends string = string> {
+    /**По умолчанию все таблицы проверяются на доступ
+     * можно исключить проверку через этот массив на схемы
+     */
+    static notAccessShemeOrTable: string[];
+    /**Принудительная проверка таблиц
+     * на все таблицы, указанные в этом массиве будет наложена проверка доступа, даже если они исключены
+     */
+    static forcedAccessTables: string[];
     values: Array<string | number | boolean | null | Array<string | number | boolean>>;
     queryString: string;
     userId: string;
@@ -20,4 +28,6 @@ export declare class BasicQuery<Fields extends string = string, _TBDALLTABLES ex
         type: string;
     };
     subQuery(restTable: IRestGet<Fields, _TBDALLTABLES>): string;
+    needCheckAccess(table: string): boolean;
+    allowTableData(table: string): string;
 }

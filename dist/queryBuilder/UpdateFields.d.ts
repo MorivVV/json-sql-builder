@@ -5,5 +5,6 @@ export declare class UpdateFields extends BasicQuery {
     constructor(set: {
         [key: string]: string | number | null | boolean | Array<string | number | boolean> | IRestGet;
     }, valNum: number | undefined, token: string, userId: string);
+    whereUpdateAccess(table: string): string;
     toString(): string;
 }
