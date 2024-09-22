@@ -171,7 +171,7 @@ export class BasicQuery<
     }
   }
 
-  allowTableData(table: string, selectFields = "*") {
+  allowTableData(table: string, selectFields = "*", accessLevel = 0) {
     return `SELECT ${selectFields}
     FROM ${table} AS t
     WHERE 
@@ -195,6 +195,7 @@ export class BasicQuery<
         INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
+        AND ru.access_level >= ${accessLevel}
         AND u.active = true
         AND ut.active = true)`;
   }
