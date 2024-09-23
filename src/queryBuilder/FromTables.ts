@@ -60,20 +60,4 @@ export class FromTables extends BasicQuery {
     }
     return { pTable, alias };
   }
-
-  checkAccess(table: string) {
-    return `SELECT DISTINCT re.kod_role, re.kod_table, $1 
-      FROM ${defaultSchema}.rights_elements as re
-        INNER JOIN ${defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
-      WHERE rt.naimen = '${table}'
-        AND ut.session_token = '${this.token}'
-        and ru.access_level >= 10
-        AND u.active = true
-        AND ut.active = true
-    ) )`;
-  }
 }
