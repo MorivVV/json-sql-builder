@@ -121,7 +121,9 @@ export class Query<
     const access = accessIns.needCheckAccess(pTable.table);
     if (access) {
       const sqlAcc =
-        "EXISTS (" + accessIns.allowTableData(pTable.table, "id", 10) + ")";
+        "EXISTS (" +
+        accessIns.allowTableData(pTable.table, "id", 10) +
+        ") \nRETURNING id";
       query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
     }
     const sqlInsert = query.filter((q) => q).join(Query.SQLSectionDelimiter);
@@ -164,7 +166,6 @@ export class Query<
       }
       query.push(`(${fieldList.join(", ")})`);
       query.push("SELECT " + valueList.join(", "));
-      query.push("RETURNING id");
     }
     return query.join(Query.SQLSectionDelimiter);
   }
