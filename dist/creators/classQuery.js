@@ -68,11 +68,15 @@ class Query {
         const iWhere = this.qWhere(this.where);
         query.push(iWhere);
         const accessIns = new BasicQuery_1.BasicQuery(0, this.token, this.userId);
-        if (accessIns.needCheckAccess(pTable.table)) {
+        const access = accessIns.needCheckAccess(pTable.table);
+        if (access) {
             const sqlAcc = "EXISTS (" + accessIns.allowTableData(pTable.table, "id", 10) + ")";
             query.push(iWhere ? `AND ${sqlAcc}` : `WHERE  ${sqlAcc}`);
         }
-        return query.filter((q) => q).join(Query.SQLSectionDelimiter);
+        const sqlInsert = query.filter((q) => q).join(Query.SQLSectionDelimiter);
+        return access
+            ? accessIns.newAccessData(pTable.table, sqlInsert)
+            : sqlInsert;
     }
     getDelete() {
         const query = [];
@@ -89,7 +93,7 @@ class Query {
         return query.filter((q) => q).join(Query.SQLSectionDelimiter);
     }
     qInsert(fields) {
-        let query = "(";
+        const query = [];
         if (fields) {
             let num = 0;
             const fieldList = [];
@@ -104,10 +108,11 @@ class Query {
                     this.values.push(value);
                 }
             }
-            query += fieldList.join(", ") + ")";
-            query += "\nSELECT " + valueList.join(", ") + "";
+            query.push(`(${fieldList.join(", ")})`);
+            query.push("SELECT " + valueList.join(", "));
+            query.push("RETURNING id");
         }
-        return query;
+        return query.join(Query.SQLSectionDelimiter);
     }
     parseTable(tbl) {
         let table = tbl;

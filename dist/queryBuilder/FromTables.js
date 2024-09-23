@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FromTables = void 0;
 const BasicQuery_1 = require("./BasicQuery");
-const globalSetting_1 = require("../config/globalSetting");
 class FromTables extends BasicQuery_1.BasicQuery {
     constructor(tables, valNum = 0, token, userId) {
         super(valNum, token, userId);
@@ -51,21 +50,6 @@ class FromTables extends BasicQuery_1.BasicQuery {
             alias = "t" + this.valNum;
         }
         return { pTable, alias };
-    }
-    checkAccess(table) {
-        return `SELECT DISTINCT re.kod_role, re.kod_table, $1 
-      FROM ${globalSetting_1.defaultSchema}.rights_elements as re
-        INNER JOIN ${globalSetting_1.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${globalSetting_1.defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${globalSetting_1.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${globalSetting_1.defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${globalSetting_1.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
-      WHERE rt.naimen = '${table}'
-        AND ut.session_token = '${this.token}'
-        and ru.access_level >= 10
-        AND u.active = true
-        AND ut.active = true
-    ) )`;
     }
 }
 exports.FromTables = FromTables;
