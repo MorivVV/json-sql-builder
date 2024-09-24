@@ -1,12 +1,15 @@
 import { IRestGet, ISQLParam } from "../types/restApi";
 import { allowOperators, postgresTypes } from "./queryConst";
-import { defaultSchema } from "../config/globalSetting";
 import { Query } from "../creators/classQuery";
 
 export class BasicQuery<
   Fields extends string = string,
   _TBDALLTABLES extends string = string
 > {
+  /**По умолчанию все таблицы проверяются на доступ
+   * можно исключить проверку через этот массив на схемы
+   */
+  static defaultSchema: string = "public";
   /**По умолчанию все таблицы проверяются на доступ
    * можно исключить проверку через этот массив на схемы
    */
@@ -49,7 +52,7 @@ export class BasicQuery<
 
   splitTable(table: string) {
     const splitT = table.split(".");
-    let scheme = defaultSchema;
+    let scheme = BasicQuery.defaultSchema;
     if (splitT.length === 2) {
       scheme = splitT[0];
       table = splitT[1];
@@ -175,11 +178,11 @@ export class BasicQuery<
     return `SELECT ${selectFields}
     FROM ${table} AS t
     WHERE 
-    NOT EXISTS (SELECT 1 FROM ${defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
-    OR EXISTS (SELECT 1 FROM ${defaultSchema}.roles as r 
-      INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-      INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
-      INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+    NOT EXISTS (SELECT 1 FROM ${BasicQuery.defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
+    OR EXISTS (SELECT 1 FROM ${BasicQuery.defaultSchema}.roles as r 
+      INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+      INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+      INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
     WHERE ut.session_token = '${this.token}' 
       AND r.full_access = true
       AND u.active = true
@@ -187,12 +190,12 @@ export class BasicQuery<
       LIMIT 1)
     OR t.id in 
     (SELECT table_identificator 
-      FROM ${defaultSchema}.rights_elements as re
-        INNER JOIN ${defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      FROM ${BasicQuery.defaultSchema}.rights_elements as re
+        INNER JOIN ${BasicQuery.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
+        INNER JOIN ${BasicQuery.defaultSchema}.roles as r ON re.kod_role = r.id 
+        INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
         AND ru.access_level >= ${accessLevel}
@@ -202,14 +205,14 @@ export class BasicQuery<
 
   newAccessData(table: string, inserSection: string) {
     return `WITH t as (${inserSection}) 
-INSERT INTO ${defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
+INSERT INTO ${BasicQuery.defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
 SELECT DISTINCT re.kod_role, re.kod_table, t.id
-      FROM t, ${defaultSchema}.rights_elements as re
-        INNER JOIN ${defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      FROM t, ${BasicQuery.defaultSchema}.rights_elements as re
+        INNER JOIN ${BasicQuery.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
+        INNER JOIN ${BasicQuery.defaultSchema}.roles as r ON re.kod_role = r.id 
+        INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
         and ru.access_level >= 10

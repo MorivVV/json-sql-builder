@@ -10,7 +10,6 @@ import type {
 import { UpdateFields } from "../queryBuilder/UpdateFields";
 import { SelectFields } from "../queryBuilder/SelectFields";
 import { WhereFilter } from "../queryBuilder/WhereFilter";
-import { defaultSchema } from "../config/globalSetting";
 import { BasicQuery } from "../queryBuilder/BasicQuery";
 
 export class Query<
@@ -172,7 +171,7 @@ export class Query<
 
   parseTable(tbl: string) {
     let table = tbl;
-    let scheme = defaultSchema;
+    let scheme = BasicQuery.defaultSchema;
     const sp = table.split(".");
     if (sp.length === 2) {
       scheme = sp[0];

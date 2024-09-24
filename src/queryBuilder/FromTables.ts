@@ -1,6 +1,5 @@
 import { IRestGet } from "../types/restApi";
 import { BasicQuery } from "./BasicQuery";
-import { defaultSchema } from "../config/globalSetting";
 interface ITableList {
   table: string;
   alias: string;

@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mqlFetchQuery = exports.Query = void 0;
+exports.mqlFetchQuery = exports.Query = exports.currentTimestamp = exports.currentAuthUser = void 0;
+var globalRestAPI_1 = require("./const/globalRestAPI");
+Object.defineProperty(exports, "currentAuthUser", { enumerable: true, get: function () { return globalRestAPI_1.currentAuthUser; } });
+Object.defineProperty(exports, "currentTimestamp", { enumerable: true, get: function () { return globalRestAPI_1.currentTimestamp; } });
 var classQuery_1 = require("./creators/classQuery");
 Object.defineProperty(exports, "Query", { enumerable: true, get: function () { return classQuery_1.Query; } });
 var fetchQuery_1 = require("./functions/fetchQuery");

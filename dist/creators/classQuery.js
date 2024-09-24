@@ -10,7 +10,6 @@ const getOperator_1 = __importDefault(require("./getOperator"));
 const UpdateFields_1 = require("../queryBuilder/UpdateFields");
 const SelectFields_1 = require("../queryBuilder/SelectFields");
 const WhereFilter_1 = require("../queryBuilder/WhereFilter");
-const globalSetting_1 = require("../config/globalSetting");
 const BasicQuery_1 = require("../queryBuilder/BasicQuery");
 class Query {
     constructor(sqlObj, valNum = 0, token, userId) {
@@ -117,7 +116,7 @@ class Query {
     }
     parseTable(tbl) {
         let table = tbl;
-        let scheme = globalSetting_1.defaultSchema;
+        let scheme = BasicQuery_1.BasicQuery.defaultSchema;
         const sp = table.split(".");
         if (sp.length === 2) {
             scheme = sp[0];

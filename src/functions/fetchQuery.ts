@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { IJMQL } from "../types/restApi";
 type ArrayType<T> = T extends readonly [...infer Item]
   ? Item[number] extends string

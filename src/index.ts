@@ -1,3 +1,5 @@
+export { currentAuthUser, currentTimestamp } from "./const/globalRestAPI";
+
 export type {
   IJMQL,
   IAliasTableFields,
