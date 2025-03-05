@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BasicQuery = void 0;
 const queryConst_1 = require("./queryConst");
@@ -29,10 +30,13 @@ class BasicQuery {
     }
     splitTable(table) {
         const splitT = table.split(".");
-        let scheme = BasicQuery.defaultSchema;
+        let scheme = _a.DATABASE_SCHEMAS.base;
         if (splitT.length === 2) {
             scheme = splitT[0];
             table = splitT[1];
+        }
+        if (scheme in _a.DATABASE_SCHEMAS) {
+            scheme = _a.DATABASE_SCHEMAS[scheme];
         }
         return {
             scheme,
@@ -115,11 +119,11 @@ class BasicQuery {
     }
     needCheckAccess(table) {
         const tableSplit = this.splitTable(table);
-        if (BasicQuery.forcedAccessTables.includes(table)) {
+        if (_a.forcedAccessTables.includes(table)) {
             return true;
         }
-        else if (!BasicQuery.notAccessShemeOrTable.includes(tableSplit.scheme) &&
-            !BasicQuery.notAccessShemeOrTable.includes(table)) {
+        else if (!_a.notAccessShemeOrTable.includes(tableSplit.scheme) &&
+            !_a.notAccessShemeOrTable.includes(table)) {
             return true;
         }
         else {
@@ -130,11 +134,11 @@ class BasicQuery {
         return `SELECT ${selectFields}
     FROM ${table} AS t
     WHERE 
-    NOT EXISTS (SELECT 1 FROM ${BasicQuery.defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
-    OR EXISTS (SELECT 1 FROM ${BasicQuery.defaultSchema}.roles as r 
-      INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-      INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
-      INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+    NOT EXISTS (SELECT 1 FROM ${_a.defaultSchema}.rights_table as rt WHERE rt.naimen = '${table}' AND rt.active=true)
+    OR EXISTS (SELECT 1 FROM ${_a.defaultSchema}.roles as r 
+      INNER JOIN ${_a.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+      INNER JOIN ${_a.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+      INNER JOIN ${_a.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
     WHERE ut.session_token = '${this.token}' 
       AND r.full_access = true
       AND u.active = true
@@ -142,12 +146,12 @@ class BasicQuery {
       LIMIT 1)
     OR t.id in 
     (SELECT table_identificator 
-      FROM ${BasicQuery.defaultSchema}.rights_elements as re
-        INNER JOIN ${BasicQuery.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${BasicQuery.defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      FROM ${_a.defaultSchema}.rights_elements as re
+        INNER JOIN ${_a.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
+        INNER JOIN ${_a.defaultSchema}.roles as r ON re.kod_role = r.id 
+        INNER JOIN ${_a.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        INNER JOIN ${_a.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        INNER JOIN ${_a.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
         AND ru.access_level >= ${accessLevel}
@@ -156,14 +160,14 @@ class BasicQuery {
     }
     newAccessData(table, inserSection) {
         return `WITH t as (${inserSection}) 
-INSERT INTO ${BasicQuery.defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
+INSERT INTO ${_a.defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
 SELECT DISTINCT re.kod_role, re.kod_table, t.id
-      FROM t, ${BasicQuery.defaultSchema}.rights_elements as re
-        INNER JOIN ${BasicQuery.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${BasicQuery.defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${BasicQuery.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${BasicQuery.defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${BasicQuery.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      FROM t, ${_a.defaultSchema}.rights_elements as re
+        INNER JOIN ${_a.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
+        INNER JOIN ${_a.defaultSchema}.roles as r ON re.kod_role = r.id 
+        INNER JOIN ${_a.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        INNER JOIN ${_a.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        INNER JOIN ${_a.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
         and ru.access_level >= 10
@@ -172,10 +176,15 @@ SELECT DISTINCT re.kod_role, re.kod_table, t.id
     }
 }
 exports.BasicQuery = BasicQuery;
+_a = BasicQuery;
 /**По умолчанию все таблицы проверяются на доступ
  * можно исключить проверку через этот массив на схемы
  */
 BasicQuery.defaultSchema = "public";
+/**Cопоставление схем в базе данных */
+BasicQuery.DATABASE_SCHEMAS = {
+    base: _a.defaultSchema,
+};
 /**По умолчанию все таблицы проверяются на доступ
  * можно исключить проверку через этот массив на схемы
  */

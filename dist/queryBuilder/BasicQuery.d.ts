@@ -4,6 +4,8 @@ export declare class BasicQuery<Fields extends string = string, _TBDALLTABLES ex
      * можно исключить проверку через этот массив на схемы
      */
     static defaultSchema: string;
+    /**Cопоставление схем в базе данных */
+    static DATABASE_SCHEMAS: Record<string, string>;
     /**По умолчанию все таблицы проверяются на доступ
      * можно исключить проверку через этот массив на схемы
      */
