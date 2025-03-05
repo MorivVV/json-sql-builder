@@ -10,6 +10,10 @@ export class BasicQuery<
    * можно исключить проверку через этот массив на схемы
    */
   static defaultSchema: string = "public";
+  /**Cопоставление схем в базе данных */
+  static DATABASE_SCHEMAS: Record<string, string> = {
+    base: this.defaultSchema,
+  };
   /**По умолчанию все таблицы проверяются на доступ
    * можно исключить проверку через этот массив на схемы
    */
@@ -52,10 +56,13 @@ export class BasicQuery<
 
   splitTable(table: string) {
     const splitT = table.split(".");
-    let scheme = BasicQuery.defaultSchema;
+    let scheme = BasicQuery.DATABASE_SCHEMAS.base;
     if (splitT.length === 2) {
       scheme = splitT[0];
       table = splitT[1];
+    }
+    if (scheme in BasicQuery.DATABASE_SCHEMAS) {
+      scheme = BasicQuery.DATABASE_SCHEMAS[scheme];
     }
     return {
       scheme,
