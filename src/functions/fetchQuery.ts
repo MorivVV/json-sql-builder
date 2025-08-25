@@ -41,11 +41,10 @@ export const mqlFetchQuery = async <
   return fetch(url, conf).then(async (response) => {
     let restext: any = "";
     try {
-      restext = await response.json().catch(async () => ({
-        err: { code: response.status, text: await response.text() },
-      }));
+      restext = await response.text()
+      restext = JSON.parse(restext)
     } catch (error) {
-      restext = await response.text();
+      
     }
     return restext;
   });

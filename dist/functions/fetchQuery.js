@@ -34,14 +34,10 @@ token = "") {
     return fetch(url, conf).then((response) => __awaiter(void 0, void 0, void 0, function* () {
         let restext = "";
         try {
-            restext = yield response.json().catch(() => __awaiter(void 0, void 0, void 0, function* () {
-                return ({
-                    err: { code: response.status, text: yield response.text() },
-                });
-            }));
+            restext = yield response.text();
+            restext = JSON.parse(restext);
         }
         catch (error) {
-            restext = yield response.text();
         }
         return restext;
     }));
