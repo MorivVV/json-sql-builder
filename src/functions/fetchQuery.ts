@@ -43,7 +43,9 @@ export const mqlFetchQuery = async <
     try {
       restext = await response
         .json()
-        .catch(() => ({ err: { code: response.status } }));
+        .catch(() => ({
+          err: { code: response.status, text: response.text() },
+        }));
     } catch (error) {
       restext = await response.text();
     }

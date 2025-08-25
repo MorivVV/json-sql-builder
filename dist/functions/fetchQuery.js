@@ -36,7 +36,9 @@ token = "") {
         try {
             restext = yield response
                 .json()
-                .catch(() => ({ err: { code: response.status } }));
+                .catch(() => ({
+                err: { code: response.status, text: response.text() },
+            }));
         }
         catch (error) {
             restext = yield response.text();
