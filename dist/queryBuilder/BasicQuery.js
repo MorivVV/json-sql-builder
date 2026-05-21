@@ -162,15 +162,15 @@ class BasicQuery {
         return `WITH t as (${inserSection}) 
 INSERT INTO ${_a.defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
 SELECT DISTINCT re.kod_role, re.kod_table, t.id
-      FROM t, ${_a.defaultSchema}.rights_elements as re
-        INNER JOIN ${_a.defaultSchema}.rights_table as rt ON re.kod_table = rt.id 
-        INNER JOIN ${_a.defaultSchema}.roles as r ON re.kod_role = r.id 
-        INNER JOIN ${_a.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
-        INNER JOIN ${_a.defaultSchema}.bz_users as u ON ru.kod_user = u.id
-        INNER JOIN ${_a.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
+      FROM t, ${_a.defaultSchema}.rights_table as rt
+        LEFT JOIN ${_a.defaultSchema}.rights_elements as re ON rt.id = re.kod_table 
+        LEFT JOIN ${_a.defaultSchema}.roles as r ON ( r.id = re.kod_role or r.full_access ) 
+        LEFT JOIN ${_a.defaultSchema}.roles_users as ru ON r.id = ru.kod_role 
+        LEFT JOIN ${_a.defaultSchema}.bz_users as u ON ru.kod_user = u.id
+        LEFT JOIN ${_a.defaultSchema}.bz_user_tokens as ut ON u.id = ut.kod_user
       WHERE rt.naimen = '${table}'
         AND ut.session_token = '${this.token}'
-        and ru.access_level >= 10
+        -- and ru.access_level >= 10
         AND u.active = true
         AND ut.active = true`;
     }
