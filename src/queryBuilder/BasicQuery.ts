@@ -213,7 +213,7 @@ export class BasicQuery<
   newAccessData(table: string, inserSection: string) {
     return `WITH t as (${inserSection}) 
 INSERT INTO ${BasicQuery.defaultSchema}.rights_elements (kod_role, kod_table, table_identificator)
-SELECT DISTINCT re.kod_role, re.kod_table, t.id
+SELECT DISTINCT r.id, rt.id, t.id
       FROM t, ${BasicQuery.defaultSchema}.rights_table as rt
         LEFT JOIN ${BasicQuery.defaultSchema}.rights_elements as re ON rt.id = re.kod_table 
         LEFT JOIN ${BasicQuery.defaultSchema}.roles as r ON ( r.id = re.kod_role or r.full_access ) 
